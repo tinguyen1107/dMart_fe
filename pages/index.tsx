@@ -8,7 +8,7 @@ const HomePage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Homepage - dWork</title>
+        <title>Homepage - dMart</title>
         <meta name="description" content="dWork" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
