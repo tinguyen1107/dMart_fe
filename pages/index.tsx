@@ -1,11 +1,11 @@
 import { Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import { ReactElement } from 'react';
+import { LoginButton } from '../components';
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
 
 const HomePage: NextPageWithLayout = () => {
-  // <link rel="icon" href="/favicon.ico" />
   return (
     <>
       <Head>
@@ -13,6 +13,7 @@ const HomePage: NextPageWithLayout = () => {
         <meta name="description" content="dMart" />
       </Head>
       <Text>THIS IS INIT PAGE</Text>
+      <LoginButton />
     </>
   );
 };
