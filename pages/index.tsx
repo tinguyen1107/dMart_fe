@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import Head from 'next/head';
 import { ReactElement } from 'react';
 import { LoginButton } from '../components';
@@ -9,11 +9,20 @@ const HomePage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Homepage - dMart</title>
+        <title>Home page</title>
         <meta name="description" content="dMart" />
       </Head>
-      <Text>THIS IS INIT PAGE</Text>
-      <LoginButton />
+      <Box p="20px">
+        <HStack>
+          <Text fontSize="24px" fontWeight="700">
+            DMart
+          </Text>
+          <LoginButton />
+        </HStack>
+        <Text fontSize="20px" fontWeight="600">
+          List NFT
+        </Text>
+      </Box>
     </>
   );
 };
