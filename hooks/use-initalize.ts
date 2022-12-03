@@ -31,15 +31,15 @@ export const useInitialize = () => {
       await blockchainMethods.connect();
     })();
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
+      window.addEventListener('load', function () {
         navigator.serviceWorker.register('/firebase-messaging-sw.js').then(
-          function(registration) {
+          function (registration) {
             console.log(
               'Service Worker registration successful with scope: ',
               registration.scope
             );
           },
-          function(err) {
+          function (err) {
             console.log('Service Worker registration failed: ', err);
           }
         );
