@@ -10,10 +10,12 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@chakra-ui/icon": "^3.0.13",
     "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hookstate/core": "^4.0.0-rc21",
+    "@mui/icons-material": "^5.10.16",
     "@tanstack/react-query": "^4.5.0",
     "@types/bn.js": "^5.1.1",
     "bn.js": "^5.2.1",
@@ -32,7 +34,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.36.1",
-    "react-icons": "^4.4.0",
+    "react-icons": "^4.7.1",
     "react-player": "^2.11.0",
     "react-query": "^3.39.2",
     "react-quilljs": "^1.2.17",
