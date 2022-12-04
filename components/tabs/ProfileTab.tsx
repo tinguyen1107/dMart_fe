@@ -1,85 +1,72 @@
+import { Tab } from '@headlessui/react';
+import { useState } from 'react';
+
 const ProfileTab = () => {
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(' ');
+  }
+  let [categories] = useState({
+    Collectibles: [
+      {
+        id: 1,
+        content: 'Does drinking coffee make you smarter?',
+      },
+    ],
+    Creation: [
+      {
+        id: 1,
+        content: 'Is tech making coffee better or worse?',
+      },
+    ],
+    Favorite: [
+      {
+        id: 1,
+        content: 'Ask Me Anything: 10 answers to your questions about coffee',
+      },
+    ],
+    Collections: [
+      {
+        id: 1,
+        title: 'Ask Me Anything: 10 answers to your questions about coffee',
+      },
+    ],
+    Publication: [
+      {
+        id: 1,
+        content: 'Ask Me Anything: 10 answers to your questions about coffee',
+      },
+    ],
+  });
   return (
-    <>
-      <div className="w-full flex justify-center">
-        <div className="flex justify-between mb-2.5">
-          <ul className="flex px-15 py-2">
-            <li
-              className="px-3 py-2 font-semibold text-slate-400 hover:border-transparent hover:bg-gray-300
-      focus:border-transparent"
+    <div className=" max-w-md px-4 py-2 sm:px-0">
+      <Tab.Group>
+        <Tab.List className="flex space-x-1 rounded-xl bg-[#A259FF] p-1 ">
+          {Object.keys(categories).map((category) => (
+            <Tab
+              key={category}
+              className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 px-2 text-3xl text-sm font-medium  leading-5 text-blue-700',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white shadow '
+                    : 'text-blue-100 text-3xl hover:bg-white/[0.12] hover:text-white'
+                )
+              }
             >
-              <a href="#Collectibles">Collectibles</a>
-            </li>
-            <li
-              className="px-3 py-2 font-semibold text-slate-400 hover:border-transparent hover:bg-gray-300
-      focus:border-transparent"
-            >
-              <a href="#Creation">Creation</a>
-            </li>
-            <li
-              className="px-3 py-2 font-semibold text-slate-400 hover:border-transparent hover:bg-gray-300
-      focus:border-transparent"
-            >
-              <a href="#Favorite">Favorite</a>
-            </li>
-            <li
-              className="px-3 py-2 font-semibold text-slate-400 hover:border-transparent hover:bg-gray-300
-      focus:border-transparent"
-            >
-              <a href="#Collections">Collections</a>
-            </li>
-            <li
-              className="px-3 py-2 font-semibold text-slate-400 hover:border-transparent hover:bg-gray-300
-      focus:border-transparent"
-            >
-              <a href="#Publication">Publication</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="tab-content" id="tabs-tabContent">
-        <div
-          className="tab-pane fade show active flex justify-center text-slate-400"
-          id="Collectibles"
-          role="tabpanel"
-          aria-labelledby="tabs-home-tab"
-        >
-          Tab 1 content
-        </div>
-        <div
-          className="tab-pane fade flex  justify-center"
-          id="Creation"
-          role="tabpanel"
-          aria-labelledby="tabs-profile-tab"
-        >
-          Tab 2 content
-        </div>
-        <div
-          className="tab-pane fade"
-          id="Favorite"
-          role="tabpanel"
-          aria-labelledby="tabs-profile-tab"
-        >
-          Tab 3 content
-        </div>
-        <div
-          className="tab-pane fade"
-          id="Collections"
-          role="tabpanel"
-          aria-labelledby="tabs-contact-tab"
-        >
-          Tab 4 content
-        </div>
-        <div
-          className="tab-pane fade"
-          id="Publication"
-          role="tabpanel"
-          aria-labelledby="tabs-contact-tab"
-        >
-          Tab 5 content
-        </div>
-      </div>
-    </>
+              {category}
+            </Tab>
+          ))}
+        </Tab.List>
+        <Tab.Panels>
+          <Tab.Panel className="text-white">Content 1</Tab.Panel>
+          <Tab.Panel className="text-white">Content 2</Tab.Panel>
+          <Tab.Panel className="text-white">Content 3</Tab.Panel>
+          <Tab.Panel className="text-white">Content 4</Tab.Panel>
+          <Tab.Panel className="text-white">Content 5</Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
   );
 };
 

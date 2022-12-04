@@ -2,9 +2,10 @@
 import EditProfileModal from '../components/modal/EditProfileModal';
 import React from 'react';
 import ProfileTab from '../components/tabs/ProfileTab';
+
 const Profile = () => {
   return (
-    <div className=" shadow bg-[#2B2B2B] h-screen">
+    <div className=" shadow bg-[#2B2B2B] h-screen scroll-smooth">
       <div className=" w-full flex justify-center" style={{ height: '348px' }}>
         <div className="flex flex-col ">
           <div
@@ -37,10 +38,10 @@ const Profile = () => {
       <div className="w-full flex justify-center">
         <div className="flex justify-between mb-2.5 ">
           <ul className="flex px-5 py-1.5 divide-x">
-            <li className="px-3 text-2xl font-semibold text-slate-400 hover:text-sky-400">
+            <li className="px-3 text-2xl font-semibold text-white hover:text-sky-400">
               <a href="#"> 0 Follower</a>
             </li>
-            <li className="px-3 text-2xl font-semibold text-slate-400 hover:text-sky-400">
+            <li className="px-3 text-2xl font-semibold text-white hover:text-sky-400">
               <a href="#">0 Following</a>
             </li>
           </ul>
@@ -48,7 +49,9 @@ const Profile = () => {
       </div>
       {/* // END INFOS */}
       {/* // TABS */}
-      <ProfileTab />
+      <div className=" w-full flex  justify-center ">
+        <ProfileTab />
+      </div>
     </div>
   );
 };
