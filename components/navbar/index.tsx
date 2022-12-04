@@ -19,6 +19,7 @@ import {
 // import {CloseIcon, MenuIcon} from 'react-icons/fa'
 import {BiMenu, BiX} from "react-icons/bi";
 import Logo from '../logo';
+import {LoginButton} from '../login-button'
 
 export const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -39,10 +40,10 @@ export const NavBar = (props: any) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem to="/marketplace" >Marketplace</MenuItem>
+        <MenuItem to="/marketplace">Marketplace</MenuItem>
         <MenuItem to="/ranking">Ranking</MenuItem>
         <MenuItem to="/wallet">Connect Wallet</MenuItem>
-        <MenuItem to="/how">Sign In</MenuItem>
+        <LoginButton />
         <MenuToggle toggle={toggle} isOpen={isOpen} />
       </Stack>
 

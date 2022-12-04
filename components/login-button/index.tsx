@@ -11,8 +11,9 @@ export const LoginButton: React.FunctionComponent = () => {
       isLoading={headerState.walletLoading}
       onClick={() => headerMethods.signIn()}
       size="sm"
+      bg="#A259FF"
     >
-      Connect wallet
+      Sign In
     </Button>
   );
 };
