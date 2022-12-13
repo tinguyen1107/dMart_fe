@@ -6,13 +6,14 @@ import { ReactElement } from 'react';
 import { LoginButton, Footer, NavBar} from '../components';
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
+import { Banner } from '../components';
 
 
 const HomePage: NextPageWithLayout = () => {
   return (
     <>
-    <NavBar />
-
+      <NavBar />
+      <Banner />
       <Head>
         <title>Home page</title>
         <meta name="description" content="dMart" />
