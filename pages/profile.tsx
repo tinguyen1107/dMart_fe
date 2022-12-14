@@ -2,14 +2,18 @@
 import EditProfileModal from '../components/modal/EditProfileModal';
 import React from 'react';
 import ProfileTab from '../components/tabs/ProfileTab';
+import { NavBar } from '../components';
+import { Footer } from '../components';
 
 const Profile = () => {
   return (
-    <div className=" shadow bg-[#2B2B2B] h-screen scroll-smooth">
+    <div className=" shadow bg-[#2B2B2B] h-screen max-h-fit">
+      <NavBar/>
+      <div className='overflow-auto bg-inherit' >
       <div className=" w-full flex justify-center" style={{ height: '348px' }}>
         <div className="flex flex-col ">
           <div
-            className="md:relative bg-gray-100 md:rounded-bl-lg md:rounded-br-lg
+            className="md:relative bg-gray-100 md:rounded
                       bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400 "
             style={{ width: '1200px', height: '348px' }}
           >
@@ -47,11 +51,15 @@ const Profile = () => {
           </ul>
         </div>
       </div>
+     
       {/* // END INFOS */}
       {/* // TABS */}
-      <div className=" w-full flex  justify-center ">
+      <div className=" w-full flex justify-center ">
         <ProfileTab />
       </div>
+      <Footer/>
+    </div>
+  
     </div>
   );
 };
