@@ -1,9 +1,10 @@
 import { Box, 
   HStack, 
+  Stack, 
   Text, } from '@chakra-ui/react';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { LoginButton, Footer, NavBar} from '../components';
+import { LoginButton, Footer, NavBar, TrendingCardCollection} from '../components';
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
 import { Banner } from '../components';
@@ -14,6 +15,9 @@ const HomePage: NextPageWithLayout = () => {
     <>
       <NavBar />
       <Banner />
+      <Stack bg="#2B2B2B">
+        <Box p='50px'><Text color='white' as='b' fontSize={{sm: '20',md: '30', lg: '40', xl: '50'}}>Trending Collection</Text></Box>
+        <TrendingCardCollection />
       <Head>
         <title>Home page</title>
         <meta name="description" content="dMart" />
@@ -31,7 +35,7 @@ const HomePage: NextPageWithLayout = () => {
           List NFT
         </Text>
       </Box>
-
+      </Stack>
       <Footer/>
       
     </>
