@@ -1,13 +1,10 @@
-import { Box, 
-  HStack, 
-  Text, } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import { LoginButton, Footer, NavBar} from '../components';
+import { LoginButton, Footer, NavBar } from '../components';
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
 import { Banner } from '../components';
-
 
 const HomePage: NextPageWithLayout = () => {
   return (
@@ -32,8 +29,7 @@ const HomePage: NextPageWithLayout = () => {
         </Text>
       </Box>
 
-      <Footer/>
-      
+      <Footer />
     </>
   );
 };
