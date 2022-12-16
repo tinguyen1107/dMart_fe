@@ -16,7 +16,6 @@ import {
 import NFTcard from '../components/marketplace/card/NFTcard';
 import { NavBar } from '../components';
 import { TrendingCard } from '../components';
-import { replaceAt } from 'react-query/types/core/utils';
 const marketplace = () => {
   const nfts = [
     {
@@ -55,52 +54,6 @@ const marketplace = () => {
       hbid: '0.33',
       ava: 'https://bit.ly/dan-abramov',
     },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-
   ];
   const collections = [
     {
