@@ -23,10 +23,10 @@ const HightLightCard = (props: any) => {
 };
 
 export const Banner = (props: any) => {
-  return (
-    <Box p="50px" bg="#2B2B2B">
-      <Grid
-        templateAreas={`"title null image"
+    return (
+        <Box p="50px" bg="#2B2B2B" paddingTop='100px'>
+            <Grid 
+            templateAreas={`"title null image"
                             "subtitle null image"
                             "stats null image"`}
         gridTemplateRows={{

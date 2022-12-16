@@ -58,6 +58,8 @@ const NavBarContainer = ({ children, ...props }: any) => {
       justify="space-between"
       wrap="wrap"
       w="100%"
+      position="fixed"
+      backdropFilter="saturate(180%) blur(5px)"
       p={8}
       bg={['#2B2B2B', '#2B2B2B', '#2B2B2B', '#2B2B2B']}
       color={['white', 'white', 'primary.700', 'primary.700']}
