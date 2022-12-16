@@ -1,38 +1,31 @@
 import React from 'react';
 import {
-  Center,
-  VStack,
   Text,
   Input,
   InputGroup,
   InputRightElement,
-  Flex,
-  Container,
   Box,
+  ChakraBaseProvider,
 } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 const HeadLine = () => {
   return (
-    <Flex
-      bg="#2B2B2B"
-      color="white"
-      w="full"
-      h="30vh"
-      justifyContent="center"
-      alignItems="center"
-      p={24}
-    >
-      <Flex direction={'column'} flex="1" position={'relative'}>
+    <Box p="50px" bg="#2B2B2B" paddingTop="100px" color="white" mt="auto" >
+      <Box px="60px" py="8px">
         <Text fontSize="4xl" as="b">
           Browse Marketplace
         </Text>
-        <Text>Browse through more than 50k NFTs on the NFT Marketplace.</Text>
-        <InputGroup mt={8} borderColor="gray">
-          <Input placeholder="Search your favorite NFTs" size="md" />
-          <InputRightElement children={<FaSearch />} />
-        </InputGroup>
-      </Flex>
-    </Flex>
+        <Text mt={2}>
+          Browse through more than 50k NFTs on the NFT Marketplace.
+        </Text>
+        <Box z-index= "1">
+          <InputGroup mt={4} borderColor="gray"  background-attachment= "fixed">
+            <Input placeholder="Search your favorite NFTs" size="md" />
+            <InputRightElement children={<FaSearch />} />
+          </InputGroup>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

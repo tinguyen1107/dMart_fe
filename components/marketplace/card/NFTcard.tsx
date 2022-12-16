@@ -1,48 +1,47 @@
 import React from 'react';
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react';
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
   Image,
   Stack,
   Heading,
   Text,
-  Divider,
   Flex,
   Spacer,
+  Box,
 } from '@chakra-ui/react';
 const NFTcard = (props: any) => {
   return (
-    <Card maxW="sm">
-      <CardBody p={0}>
-        <Image src={props.imgUrl} alt="Dan Abramov"/>
-        <Stack mx={4} my="4" spacing="2" color={'white'}>
-          <Heading size="md">{props.title}</Heading>
-          <Flex>
-            <Avatar name="Dan Abrahmov" src={props.ava} size="xs" />
-            <Text px={2} size={'xl'}>
-              {props.artist}
-            </Text>
-          </Flex>
-        </Stack>
-      </CardBody>
-      <Divider />
-      <CardFooter>
+    <Box maxW="420px" bg="#2B2B2B" borderRadius={'2xl'} color="white">
+      <Image src={props.imgUrl} alt="nfts" objectFit="cover" />
+      <Stack mx={4} my="2" spacing="2" p={3} color={'white'}>
+        <Heading size="lg">{props.title}</Heading>
+        <Flex my={'16px'}>
+          <Image  boxSize='26px' src={props.ava} borderRadius="full"  />
+          <Text px={2} fontSize={{ md: '12', lg: '16' }}>
+            {props.artist}
+          </Text>
+        </Flex>
         <Flex w="full">
           <Stack>
-            <Text color={'gray'}>Price</Text>
-            <Text color={'white'}>{props.price} ETH</Text>
+            <Text color={'gray'} fontSize={{ md: '12', lg: '14' }}>
+              Price
+            </Text>
+            <Text color={'white'} fontSize={{ md: '12', lg: '18' }}>
+              {props.price} ETH
+            </Text>
           </Stack>
           <Spacer />
           <Stack>
-            <Text color={'gray'}>Highest Bid</Text>
-            <Text color={'white'}>{props.hbid} ETH</Text>
+            <Text color={'gray'} fontSize={{ md: '12', lg: '14' }}>
+              Highest Bid
+            </Text>
+            <Text color={'white'} fontSize={{ md: '12', lg: '18' }}>
+              {props.hbid} ETH
+            </Text>
           </Stack>
         </Flex>
-      </CardFooter>
-    </Card>
+      </Stack>
+    </Box>
   );
 };
 

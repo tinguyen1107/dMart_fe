@@ -53,12 +53,13 @@ export const NavBar = (props: any) => {
 const NavBarContainer = ({ children, ...props }: any) => {
   return (
     <Flex
-      as="nav"
+      as="header"
       align="center"
       justify="space-between"
       wrap="wrap"
       w="100%"
       position="fixed"
+      zIndex={200}
       backdropFilter="saturate(180%) blur(5px)"
       p={8}
       bg={['#2B2B2B', '#2B2B2B', '#2B2B2B', '#2B2B2B']}
