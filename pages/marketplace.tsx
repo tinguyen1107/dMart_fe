@@ -71,13 +71,6 @@ const marketplace = () => {
       right: 'https://i.ibb.co/3NKh8HX/top.png',
     },
     {
-      label: '3',
-      top: 'https://i.ibb.co/3NKh8HX/top.png',
-      left: 'https://i.ibb.co/3NKh8HX/top.png',
-      mid: 'https://i.ibb.co/3NKh8HX/top.png',
-      right: 'https://i.ibb.co/3NKh8HX/top.png',
-    },
-    {
       label: '4',
       top: 'https://i.ibb.co/3NKh8HX/top.png',
       left: 'https://i.ibb.co/3NKh8HX/top.png',
@@ -105,8 +98,8 @@ const marketplace = () => {
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
               {nfts.map((card) => (
-                <GridItem w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
-                  <NFTcard key={card.id} {...card} />
+                <GridItem  key={card.id} w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
+                  <NFTcard {...card} />
                 </GridItem>
               ))}
             </SimpleGrid>
@@ -119,8 +112,8 @@ const marketplace = () => {
               px={'10%'}
             >
               {collections.map((child) => (
-                <GridItem w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
-                  <TrendingCard key={child.label} {...child} />
+                <GridItem key={child.label} w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
+                  <TrendingCard  {...child} />
                 </GridItem>
               ))}
             </Grid>

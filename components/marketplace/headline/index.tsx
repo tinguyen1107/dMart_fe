@@ -21,7 +21,7 @@ const HeadLine = () => {
         <Box z-index= "1">
           <InputGroup mt={4} borderColor="gray"  background-attachment= "fixed">
             <Input placeholder="Search your favorite NFTs" size="md" />
-            <InputRightElement children={<FaSearch />} />
+            <InputRightElement><FaSearch /></InputRightElement>
           </InputGroup>
         </Box>
       </Box>

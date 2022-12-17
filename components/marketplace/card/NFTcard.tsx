@@ -12,7 +12,7 @@ import {
 const NFTcard = (props: any) => {
   return (
     <Box maxW="420px" bg="#2B2B2B" borderRadius={'2xl'} color="white">
-      <Image src={props.imgUrl} alt="nfts" objectFit="cover" />
+      <Image src={props.imgUrl} alt="picture of NFTs" objectFit="cover" />
       <Stack mx={4} my="2" spacing="2" p={3} color={'white'}>
         <Heading size="lg">{props.title}</Heading>
         <Flex my={'16px'}>

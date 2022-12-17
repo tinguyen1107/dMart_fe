@@ -86,11 +86,11 @@ export const TrendingCard = ({ top, left, mid, right }: CARD) => {
       >
         <GridItem pl="2" bg="#2B2B2B" area={'top'}>
           {' '}
-          <Img src={top}></Img>
+          <Img src={top} alt="top"></Img>
         </GridItem>
         <GridItem pl="2" bg="#2B2B2B" area={'left'}>
           {' '}
-          <Img src={left}></Img>
+          <Img src={left} alt="left"></Img>
         </GridItem>
         <GridItem pl="2" bg="#2B2B2B" area={'mid'}>
           {' '}
@@ -98,7 +98,7 @@ export const TrendingCard = ({ top, left, mid, right }: CARD) => {
         </GridItem>
         <GridItem pl="2" bg="#2B2B2B" area={'right'}>
           {' '}
-          <Img src={right}></Img>
+          <Img src={right} alt="right"></Img>
         </GridItem>
         <GridItem pl="2" bg="#2B2B2B" area={'name'}>
           <Stack>
