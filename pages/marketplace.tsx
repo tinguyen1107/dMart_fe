@@ -16,6 +16,7 @@ import {
 import NFTcard from '../components/marketplace/card/NFTcard';
 import { NavBar } from '../components';
 import { TrendingCard } from '../components';
+
 const marketplace = () => {
   const nfts = [
     {
@@ -77,14 +78,13 @@ const marketplace = () => {
       mid: 'https://i.ibb.co/3NKh8HX/top.png',
       right: 'https://i.ibb.co/3NKh8HX/top.png',
     },
-    
   ];
   return (
     <>
       <NavBar />
       <HeadLine />
-      <Tabs isFitted variant="unstyled" bg="3B3B3B">
-        <TabList color={'gray'} bg="#2B2B2B" px={16} as="b">
+      <Tabs isFitted variant="unstyled" bg="#3B3B3B">
+        <TabList color={'gray'} bg="#2B2B2B" as="b">
           <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
             <Text> NFTs </Text>
             <Badge mx={4}>{nfts.length}</Badge>
@@ -98,7 +98,13 @@ const marketplace = () => {
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
               {nfts.map((card) => (
-                <GridItem  key={card.id} w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
+                <GridItem
+                  key={card.id}
+                  w="auto"
+                  h="auto"
+                  bg="#2B2B2B"
+                  borderRadius="3xl"
+                >
                   <NFTcard {...card} />
                 </GridItem>
               ))}
@@ -112,8 +118,14 @@ const marketplace = () => {
               px={'10%'}
             >
               {collections.map((child) => (
-                <GridItem key={child.label} w="auto" h="auto" bg="#2B2B2B" borderRadius="3xl">
-                  <TrendingCard  {...child} />
+                <GridItem
+                  key={child.label}
+                  w="auto"
+                  h="auto"
+                  bg="#2B2B2B"
+                  borderRadius="3xl"
+                >
+                  <TrendingCard {...child} />
                 </GridItem>
               ))}
             </Grid>

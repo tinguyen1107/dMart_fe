@@ -16,7 +16,7 @@ const NFTcard = (props: any) => {
       <Stack mx={4} my="2" spacing="2" p={3} color={'white'}>
         <Heading size="lg">{props.title}</Heading>
         <Flex my={'16px'}>
-          <Image  boxSize='26px' src={props.ava} borderRadius="full"  />
+          <Image boxSize="26px" src={props.ava} borderRadius="full" />
           <Text px={2} fontSize={{ md: '12', lg: '16' }}>
             {props.artist}
           </Text>
