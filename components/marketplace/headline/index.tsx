@@ -5,7 +5,6 @@ import {
   InputGroup,
   InputRightElement,
   Box,
-  ChakraBaseProvider,
 } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 const HeadLine = () => {
