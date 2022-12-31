@@ -6,7 +6,7 @@ import { Box, Center, ChakraProvider, Spinner, Image } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import NextNProgress from 'nextjs-progressbar';
 import { useInitialize } from '../hooks';
-
+import '../styles/globals.css';
 // PouchDB
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
