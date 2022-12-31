@@ -1,6 +1,7 @@
 import { BN } from 'bn.js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
-import { Container } from '../core';
+import { getContainer } from '../core';
+import { TransactionAction } from '../core/types';
 import { AccountDto } from '../dtos';
 
 enum ContractMethods {
@@ -14,7 +15,7 @@ enum ContractMethods {
 
 export const AccountApi = Object.freeze({
   async test(): Promise<boolean> {
-    const res = await Container.bcConnector.callViewMethod({
+    const res = await getContainer().bcConnector.callViewMethod({
       methodName: 'test',
       args: {},
     });
@@ -22,30 +23,30 @@ export const AccountApi = Object.freeze({
     return res;
   },
   async storageDeposit(): Promise<void> {
-    await Container.bcConnector.callChangeMethod({
+    await getContainer().bcConnector.callChangeMethod({
       methodName: ContractMethods.storage_deposit,
       args: {},
       attachedDeposit: new BN(parseNearAmount('0.2') ?? 0),
     });
   },
   async isRegistered(): Promise<boolean> {
-    const res = await Container.bcConnector.callViewMethod({
+    const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.is_registered,
       args: {
-        account_id: Container.bcConnector.wallet.getAccountId(),
+        account_id: getContainer().bcConnector.wallet.getAccountId(),
       },
     });
     return res;
   },
   async storageMinimumBalance(): Promise<number> {
-    const res = await Container.bcConnector.callViewMethod({
+    const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.storage_minimum_balance,
       args: {},
     });
     return res;
   },
   async getUserInfo(account_id: string): Promise<AccountDto> {
-    const res = await Container.bcConnector.callViewMethod({
+    const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.user_info,
       args: {
         account_id,
@@ -54,7 +55,7 @@ export const AccountApi = Object.freeze({
     return res;
   },
   async isAdmin(account_id: string): Promise<boolean> {
-    const res = await Container.bcConnector.callViewMethod({
+    const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.is_admin,
       args: {
         account_id,
@@ -63,12 +64,13 @@ export const AccountApi = Object.freeze({
     return res;
   },
   async fetchAccount(accountId: string): Promise<AccountDto> {
-    let account: AccountDto = await Container.bcConnector.callViewMethod({
+    let account: AccountDto = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.get_account,
       args: {
         account_id: accountId,
       },
     });
+    console.log('account data', account);
     if (account) {
       return mapToAccount({ ...account, account_id: accountId });
     }
@@ -89,6 +91,7 @@ const mapToRawAccount = (item: any): AccountDto => {
     thumbnail: item[1]?.thumbnail,
     bio: item[1]?.bio,
     displayName: item?.display_name,
+    nfts: item[1]?.nfts,
   };
 };
 
@@ -99,5 +102,6 @@ const mapToAccount = (item: any): AccountDto => {
     thumbnail: item.thumbnail,
     bio: item.bio,
     displayName: item.display_name,
+    nfts: item?.nfts,
   };
 };

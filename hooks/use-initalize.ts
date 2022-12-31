@@ -4,7 +4,7 @@ import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { useAccount, useApp } from './atoms';
 import { StorageKeys } from '../constants';
 import { DB } from '../db';
-import { Container } from '../core';
+import { getContainer } from '../core';
 import { AccountRepo } from '../repos';
 
 export const useInitialize = () => {
@@ -18,14 +18,14 @@ export const useInitialize = () => {
     (async () => {
       await DB.init();
       const oldContractId = localStorage.getItem(StorageKeys.CONTRACT_ID);
-      if (oldContractId !== Container.bcConnector.config.contractId) {
+      if (oldContractId !== getContainer().bcConnector.config.contractId) {
         // clear old data
         localStorage.clear();
         await DB.destroy();
         await DB.init();
         localStorage.setItem(
           StorageKeys.CONTRACT_ID,
-          Container.bcConnector.config.contractId
+          getContainer().bcConnector.config.contractId
         );
       }
       await blockchainMethods.connect();

@@ -21,23 +21,14 @@ export type QuillEditorPropsType = {
 };
 
 export const QuillEditor = (props: QuillEditorPropsType) => {
-  const {
-    id,
-    isMiniMode,
-    refInsertImage,
-    refInsertVideo,
-    refInsertNFT,
-    defaultValue,
-  } = props;
+  const { id, isMiniMode, refInsertImage, refInsertVideo, refInsertNFT, defaultValue } = props;
   const {
     props: { quill, quillRef },
     methods: {},
   } = useQuillEditor(props);
 
   const rootClassName =
-    props.mode === 'create_post'
-      ? [classes['root'], classes['create-post']].join(' ')
-      : classes['root'];
+    props.mode === 'create_post' ? [classes['root'], classes['create-post']].join(' ') : classes['root'];
 
   return (
     <div className={rootClassName} style={{ ...props.style }}>

@@ -4,4 +4,5 @@ export type AccountDto = {
   thumbnail: string;
   bio: string;
   displayName: string;
+  nfts: [];
 };

@@ -1,23 +1,32 @@
 import React from 'react';
-import { Container } from '../container';
-import { useHookstate } from '@hookstate/core';
-import { BlockchainState } from '../store';
+import { State, useHookstate } from '@hookstate/core';
+import { BlockChainState, BlockchainState } from '../store';
 import { parseToUsername } from '../utils';
+import { NearConnector, NearSignInOptions } from '../blockchain/near';
+import { getContainer } from '..';
 
-export const useBlockchain = () => {
-  const blockchainState = useHookstate(BlockchainState);
+export const useBlockchain = ({
+  connector,
+  state,
+}: {
+  connector?: NearConnector;
+  state?: State<BlockChainState>;
+} = {}) => {
+  const bcConnector: NearConnector = connector ?? getContainer().bcConnector;
+  const blockchainState = useHookstate(state ?? BlockchainState);
 
   const _checkLogged = async () => {
-    const isSignedIn = await Container.bcConnector.isSignedIn();
+    const isSignedIn = await bcConnector.isSignedIn();
     blockchainState.wallet.merge({
       logged: isSignedIn,
     });
     if (isSignedIn) {
-      const accountId = Container.bcConnector.wallet.getAccountId();
+      const accountId = bcConnector.wallet.getAccountId();
+      console.log('connect? ', accountId);
       blockchainState.accountId.set(accountId);
       // get account balance
-      const accountBalance = await Container.bcConnector.wallet
-        .account()
+      const accountBalance = await getContainer()
+        .bcConnector.wallet.account()
         .getAccountBalance();
 
       // update wallet state
@@ -35,7 +44,7 @@ export const useBlockchain = () => {
   /////
 
   const connect = React.useCallback(async () => {
-    await Container.bcConnector.connect();
+    await bcConnector.connect();
     blockchainState.merge({
       loading: false,
       ready: true,
@@ -43,21 +52,25 @@ export const useBlockchain = () => {
     await _checkLogged();
   }, []);
 
-  const signIn = React.useCallback(async () => {
+  const signIn = React.useCallback(async (options?: NearSignInOptions) => {
     if (blockchainState.ready.value) {
-      BlockchainState.wallet.loading.set(true);
-      await Container.bcConnector.signIn();
+      blockchainState.wallet.loading.set(true);
+      await bcConnector.signIn();
     }
   }, []);
 
-  const signOut = React.useCallback(async () => {
-    if (blockchainState.ready.value) {
-      BlockchainState.wallet.loading.set(true);
-      await Container.bcConnector.signOut();
-      window.location.replace('/');
-      // await _checkLogged();
-    }
-  }, []);
+  const signOut = React.useCallback(
+    async ({ isReload = true }: { isReload?: boolean } = {}) => {
+      if (blockchainState.ready.value) {
+        blockchainState.wallet.loading.set(true);
+        await bcConnector.signOut();
+
+        if (isReload) window.location.replace('/');
+        // await _checkLogged();
+      }
+    },
+    []
+  );
 
   return {
     blockchainState,

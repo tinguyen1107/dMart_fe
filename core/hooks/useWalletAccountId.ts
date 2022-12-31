@@ -7,8 +7,6 @@ export const useWalletAccountId = () => {
 
   return {
     accountId: blockchainState.accountId.value ?? null,
-    username: blockchainState.accountId.value
-      ? parseToUsername(blockchainState.accountId.value)
-      : null,
+    username: blockchainState.accountId.value ? parseToUsername(blockchainState.accountId.value) : null,
   };
 };

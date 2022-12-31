@@ -6,8 +6,7 @@ import { QuillEditorPropsType } from './quillEditor';
 import MagicUrl from 'quill-magic-url';
 
 export const useQuillEditor = (props: QuillEditorPropsType) => {
-  const { id, placeholder, onChange, customRef, refQuill, defaultValue } =
-    props;
+  const { id, placeholder, onChange, customRef, refQuill, defaultValue } = props;
 
   const modules: any = {
     toolbar: `#${id}`,

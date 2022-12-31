@@ -29,7 +29,13 @@ import {
   FaInstagram,
 } from 'react-icons/fa';
 import { TrendingCard, NFTcard, NavBar } from '../../../components';
-const artistpage = () => {
+import { AccountApi } from '../../../apis';
+import { useAccountPage } from '../../../hooks';
+import { useRouter } from 'next/router';
+import { Optional } from '../../../core/types';
+import { NFT, NFTMetadata } from '../../../dtos';
+
+const ArtistPage = () => {
   const profile = {
     name: 'AnimaKid',
     Volume: '250k',
@@ -74,6 +80,35 @@ const artistpage = () => {
       },
     ],
   };
+  const router = useRouter();
+
+  const accountId = router.query?.accountId as Optional<string>;
+  const {
+    accountPageState: { accountQuery, nftQuery },
+  } = useAccountPage({ accountId });
+
+  const listNft = React.useMemo(() => {
+    if (nftQuery.data?.pages.length) {
+      let data = nftQuery.data.pages.reduce(
+        (a: NFT[], b: NFT[]) => [...a, ...b],
+        []
+      );
+      // .map((val) => {
+      //   if (postState.value.filter.type != 'all')
+      //     return { ...val, showParent: false };
+      //
+      //   let showParent = false;
+      //   if (originRep.current.includes(val.id)) return;
+      //   if (val.postType.type == 'Reply') {
+      //     showParent = !originRep.current.includes(val.postType.post_id!);
+      //     if (showParent) originRep.current.push(val.postType.post_id!);
+      //   }
+      //   return { ...val, showParent };
+      // });
+      console.log('List nft:', data);
+      return data;
+    } else return undefined;
+  }, [nftQuery.data?.pages]);
   return (
     <Box bg="#2B2B2B" color={'whiteAlpha.900'} h="auto">
       <NavBar />
@@ -213,5 +248,4 @@ const artistpage = () => {
     </Box>
   );
 };
-
-export default artistpage;
+export default ArtistPage;
