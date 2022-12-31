@@ -18,8 +18,10 @@ import {
 } from '@chakra-ui/react';
 // import {CloseIcon, MenuIcon} from 'react-icons/fa'
 import { BiMenu, BiX } from 'react-icons/bi';
+import { FaSearch } from 'react-icons/fa';
 import Logo from '../logo';
 import { LoginButton } from '../login-button';
+import { Dropdown_Ava } from '../dropdown-avatar';
 
 export const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -40,9 +42,11 @@ export const NavBar = (props: any) => {
         direction={['column', 'row', 'row', 'row']}
         pt={[4, 4, 0, 0]}
       >
+        <MenuItem>
+          <FaSearch size={'23px'} />
+        </MenuItem>
         <MenuItem to="/marketplace">Marketplace</MenuItem>
-        <MenuItem to="/ranking">Ranking</MenuItem>
-        <MenuItem to="/wallet">Connect Wallet</MenuItem>
+        <Dropdown_Ava />
         <LoginButton />
         <MenuToggle toggle={toggle} isOpen={isOpen} />
       </Stack>

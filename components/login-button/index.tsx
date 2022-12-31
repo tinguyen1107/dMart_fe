@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react';
 import React from 'react';
 import { useHeader } from '../../hooks';
-
+import { FaRegUser } from 'react-icons/fa';
 export const LoginButton: React.FunctionComponent = () => {
   const { headerState, headerMethods } = useHeader();
 
@@ -10,10 +10,12 @@ export const LoginButton: React.FunctionComponent = () => {
       padding="12px 18px"
       isLoading={headerState.walletLoading}
       onClick={() => headerMethods.signIn()}
-      size="sm"
+      size="md"
       bg="#A259FF"
+      leftIcon={<FaRegUser />}
+      borderRadius="2xl"
     >
-      Sign In
+      Connect wallet
     </Button>
   );
 };
