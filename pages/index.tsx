@@ -10,10 +10,14 @@ import {
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
 import { Banner } from '../components';
+
 import { AccountApi } from '../apis';
 
+import { DiscoverMoreNFT } from '../components/discover-more';
+import { BiddingCard } from '../components/bidding-card';
+
+
 const HomePage: NextPageWithLayout = () => {
-  const test = AccountApi.test();
   return (
     <>
       <NavBar />
@@ -29,25 +33,30 @@ const HomePage: NextPageWithLayout = () => {
           </Text>
         </Box>
         <TrendingCardCollection />
-        <Head>
-          <title>Home page</title>
-          <meta name="description" content="dMart" />
-        </Head>
-        <Box p="20px">
-          <HStack>
-            <Text fontSize="24px" fontWeight="700">
-              DMart
-            </Text>
-            <Text fontSize="24px" fontWeight="700">
-              Feature
-            </Text>
-          </HStack>
-          <Text fontSize="20px" fontWeight="600">
-            List NFT
+        <Box p="50px">
+          <Text
+            color="white"
+            as="b"
+            fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
+          >
+            Discover more NFT
           </Text>
         </Box>
+        <DiscoverMoreNFT/>
+        <Box p="50px">
+          <Text
+            color="white"
+            as="b"
+            fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
+          >
+            NFT Auction
+          </Text>
+        </Box>
+        <BiddingCard/>
+      
+        <Footer />
       </Stack>
-      <Footer />
+      
     </>
   );
 };

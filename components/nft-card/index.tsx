@@ -9,9 +9,10 @@ import {
   Spacer,
   Box,
 } from '@chakra-ui/react';
+
 export const NFTcard = (props: any) => {
   return (
-    <Box maxW="420px" bg="#2B2B2B" borderRadius={'2xl'} color="white">
+    <Box p="20px" maxW="420px" bg="#2B2B2B" borderRadius={'2xl'} color="white">
       <Image src={props.imgUrl} alt="picture of NFTs" objectFit="cover" />
       <Stack mx={4} my="2" spacing="2" p={3} color={'white'}>
         <Heading size="lg">{props.title}</Heading>
