@@ -13,6 +13,14 @@ enum ContractMethods {
 }
 
 export const AccountApi = Object.freeze({
+  async test(): Promise<boolean> {
+    const res = await Container.bcConnector.callViewMethod({
+      methodName: 'test',
+      args: {},
+    });
+    console.log('tingueyn test', res);
+    return res;
+  },
   async storageDeposit(): Promise<void> {
     await Container.bcConnector.callChangeMethod({
       methodName: ContractMethods.storage_deposit,

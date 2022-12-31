@@ -10,8 +10,10 @@ import {
 import { MainLayout } from '../layouts';
 import { NextPageWithLayout } from './_app';
 import { Banner } from '../components';
+import { AccountApi } from '../apis';
 
 const HomePage: NextPageWithLayout = () => {
+  const test = AccountApi.test();
   return (
     <>
       <NavBar />
