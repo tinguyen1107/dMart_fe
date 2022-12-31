@@ -28,9 +28,7 @@ import {
   FaTwitter,
   FaInstagram,
 } from 'react-icons/fa';
-import { TrendingCard } from '../components';
-import NFTcard from '../components/marketplace/card/NFTcard';
-import { NavBar } from '../components';
+import { TrendingCard, NFTcard, NavBar } from '../../../components';
 const artistpage = () => {
   const profile = {
     name: 'AnimaKid',

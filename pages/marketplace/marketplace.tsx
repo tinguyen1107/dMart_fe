@@ -1,5 +1,4 @@
 import React from 'react';
-import HeadLine from '../components/marketplace/headline';
 import {
   Box,
   Tabs,
@@ -13,9 +12,7 @@ import {
   GridItem,
   SimpleGrid,
 } from '@chakra-ui/react';
-import NFTcard from '../components/marketplace/card/NFTcard';
-import { NavBar } from '../components';
-import { TrendingCard } from '../components';
+import { NavBar, NFTcard, HeadLine, TrendingCard } from '../../components';
 
 const marketplace = () => {
   const nfts = [

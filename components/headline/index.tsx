@@ -7,7 +7,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
-const HeadLine = () => {
+export const HeadLine = () => {
   return (
     <Box p="50px" bg="#2B2B2B" paddingTop="100px" color="white" mt="auto">
       <Box px="60px" py="8px">
@@ -29,5 +29,3 @@ const HeadLine = () => {
     </Box>
   );
 };
-
-export default HeadLine;

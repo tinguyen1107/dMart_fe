@@ -9,7 +9,7 @@ import {
   Spacer,
   Box,
 } from '@chakra-ui/react';
-const NFTcard = (props: any) => {
+export const NFTcard = (props: any) => {
   return (
     <Box maxW="420px" bg="#2B2B2B" borderRadius={'2xl'} color="white">
       <Image src={props.imgUrl} alt="picture of NFTs" objectFit="cover" />
@@ -44,5 +44,3 @@ const NFTcard = (props: any) => {
     </Box>
   );
 };
-
-export default NFTcard;
