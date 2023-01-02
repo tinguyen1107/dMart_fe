@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Box,
   Flex,
@@ -15,11 +15,15 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Center,
 } from '@chakra-ui/react';
 // import {CloseIcon, MenuIcon} from 'react-icons/fa'
 import { BiMenu, BiX } from 'react-icons/bi';
 import Logo from '../logo';
 import { LoginButton } from '../login-button';
+import { Brand } from '../brand';
+import { useWindowScroll } from 'react-use';
+import { MAX_WIDTH_CONTENT } from '../../constants';
 
 export const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -28,10 +32,7 @@ export const NavBar = (props: any) => {
 
   return (
     <NavBarContainer {...props}>
-      <Logo
-        wrap="wrap"
-        color={['white', 'white', 'primary.500', 'primary.500']}
-      />
+      <Brand />
 
       <Stack
         spacing={8}
@@ -51,30 +52,50 @@ export const NavBar = (props: any) => {
 };
 
 const NavBarContainer = ({ children, ...props }: any) => {
+  const headerStyle = useMemo(() => {
+    return {
+      bg: '#aaa5',
+      boxShadow: '0 10px 10px #0001',
+      backdropFilter: 'auto',
+      backdropBlur: '20px',
+    };
+  }, []);
+  const { y } = useWindowScroll();
+  const targetPositionY = useBreakpointValue<number>({
+    base: 50,
+    md: 80,
+  })!;
+
   return (
-    <Flex
-      as="header"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      w="100%"
+    <Center
       position="fixed"
-      zIndex={200}
-      backdropFilter="saturate(180%) blur(5px)"
-      p={8}
-      bg={['#2B2B2B', '#2B2B2B', '#2B2B2B', '#2B2B2B']}
-      color={['white', 'white', 'primary.700', 'primary.700']}
-      {...props}
+      w="100%"
+      {...(y > targetPositionY ? headerStyle : {})}
     >
-      {children}
-    </Flex>
+      <Flex
+        as="header"
+        justify="space-between"
+        wrap="wrap"
+        w="100%"
+        zIndex={200}
+        p="15px"
+        color="white"
+        {...props}
+        maxW={MAX_WIDTH_CONTENT}
+      >
+        {children}
+      </Flex>
+    </Center>
   );
 };
 
 const MenuItem = ({ children, isLast, to = '/', ...rest }: any) => {
   return (
     <Link href={to}>
-      <Text display={{ sm: 'none', base: 'none', md: 'block' }}>
+      <Text
+        fontWeight="600"
+        display={{ sm: 'none', base: 'none', md: 'block' }}
+      >
         {children}
       </Text>
     </Link>

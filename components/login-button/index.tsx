@@ -13,7 +13,7 @@ export const LoginButton: React.FunctionComponent = () => {
       size="sm"
       bg="#A259FF"
     >
-      Sign In
+      Connect wallet
     </Button>
   );
 };

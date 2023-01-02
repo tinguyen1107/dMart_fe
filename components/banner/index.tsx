@@ -12,19 +12,29 @@ import {
   Heading,
   HStack,
   Img,
+  VStack,
+  Image,
 } from '@chakra-ui/react';
+import DMartIcon from '../../assets/logos/DMartIcon.svg';
 
 const HightLightCard = (props: any) => {
   return (
-    <Box>
+    <VStack bg="#2b2b2b" alignItems="left" spacing="0" borderRadius="20px">
       <Img src="https://i.ibb.co/FD1yD06/1.png" alt="Dan Abramov" />
-    </Box>
+      <Box p="15px">
+        <Text fontSize="22px">Space Walking</Text>
+        <HStack>
+          <Image src={DMartIcon.src} width="24px" />
+          <Text>group_07</Text>
+        </HStack>
+      </Box>
+    </VStack>
   );
 };
 
 export const Banner = (props: any) => {
   return (
-    <Box p="50px" bg="#2B2B2B" paddingTop="100px">
+    <Box p="15px" paddingTop="100px">
       <Grid
         templateAreas={`"title null image"
                             "subtitle null image"
@@ -49,7 +59,7 @@ export const Banner = (props: any) => {
         <GridItem pl="2" area={'image'} color="white">
           <HightLightCard />
         </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'title'}>
+        <GridItem pl="2" area={'title'}>
           <Flex
             color="white"
             fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
@@ -58,7 +68,7 @@ export const Banner = (props: any) => {
             Discover digital art & Collect NFTs
           </Flex>
         </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'subtitle'} color="white">
+        <GridItem pl="2" area={'subtitle'} color="white">
           <Flex
             color="white"
             fontSize={{ sm: '10', md: '20', lg: '20', xl: '25' }}
@@ -67,7 +77,7 @@ export const Banner = (props: any) => {
             sell art from more than 20k NFT artists.
           </Flex>
         </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'stats'} color="white">
+        <GridItem pl="2" area={'stats'} color="white">
           <Stack spacing="40px" direction="row">
             <Flex
               color="white"
