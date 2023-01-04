@@ -64,7 +64,7 @@ export const useInitialize = () => {
           // accountState.isAdmin.set(isAdmin);
           await Promise.all([
             accountMethods.fetchProfile(),
-            // accountMethods.fetchBalance(),
+            accountMethods.fetchBalance(),
           ]);
         }
       };

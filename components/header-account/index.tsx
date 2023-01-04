@@ -44,18 +44,31 @@ export const HeaderAccount: React.FunctionComponent<HeaderAccountProps> = ({
 
   const { accountState } = useAccount();
 
-  // const balanceAvailable = useMemo(
-  //   () => formatNearAmount(accountState.balance.get()?.available ?? '0', 2),
-  //   [accountState.balance.get()]
-  // );
+  const balanceAvailable = useMemo(
+    () => formatNearAmount(accountState.balance.get()?.available ?? '0', 2),
+    [accountState.balance.get()]
+  );
 
-  const handleBtnArQrClick = useCallback(() => {
-    router.push('/qrcode');
-  }, []);
-
-  const handleBtnArDepositClick = useCallback(() => {
+  const handleBtnDepositClick = useCallback(() => {
     AuthUtils.authCheckAndExec(() => {
       ModalUtils.storageDeposit.onOpen();
+    });
+  }, []);
+
+  const handleBtnWithdrawClick = useCallback(() => {
+    AuthUtils.authCheckAndExec(() => {
+      ModalUtils.storageWithdraw.onOpen();
+    });
+  }, []);
+
+  const handleBtnProfileClick = useCallback(() => {
+    let profile = accountState.profile.get();
+    if (!!profile) router.push(`/account/${profile.id}`);
+  }, [accountState.profile]);
+
+  const handleBtnMintNftClick = useCallback(() => {
+    AuthUtils.authCheckAndExec(() => {
+      ModalUtils.mintNft.onOpen();
     });
   }, []);
 
@@ -67,49 +80,39 @@ export const HeaderAccount: React.FunctionComponent<HeaderAccountProps> = ({
         textColor="textPrimary"
         minW="240px"
       >
-        <VStack p="15px" align="stretch" spacing="10px" w="100%">
-          <HStack justify="space-between" alignItems="top">
-            <Text
-              textAlign="center"
-              color="textSloganHomepage"
-              fontSize="18px"
-              fontWeight="600"
-            >
-              Rep AR
+        <VStack bg="#555" p="15px" borderTopRadius="12px" fontWeight="800">
+          <HStack w="100%" alignItems="top" justify="space-between">
+            <Text textAlign="center" color="textSloganHomepage" fontSize="18px">
+              Balance
             </Text>
             <VStack spacing="0" alignItems="end">
               <Text
                 textAlign="center"
                 color="textSloganHomepage"
                 fontSize="16px"
-                fontWeight="800"
               >
-                {`${
-                  //balanceAvailable
-                  0
-                } NEAR`}
+                {`${balanceAvailable} NEAR`}
               </Text>
               <Text
                 textAlign="center"
                 color="textSecondary"
-                fontSize="12px"
-                fontFamily="Lato"
+                fontSize="10px"
+                fontWeight="500"
               >
                 Available Balance
               </Text>
             </VStack>
           </HStack>
-          <HStack>
+          <HStack w="100%" justify="space-between">
             <Button
               variant="secondary"
               size="sm"
               py="8px"
               w="100%"
               fontWeight="800"
-              bg="textSecondary"
+              bg="#fff"
               color="#000"
-              leftIcon={<IoMdWallet size={18} />}
-              onClick={handleBtnArDepositClick}
+              onClick={handleBtnDepositClick}
             >
               Deposit
             </Button>
@@ -118,48 +121,34 @@ export const HeaderAccount: React.FunctionComponent<HeaderAccountProps> = ({
               colorScheme="purple"
               size="sm"
               py="8px"
+              bg="#000"
               w="100%"
               fontWeight="800"
-              leftIcon={<MdQrCode size={18} />}
-              onClick={handleBtnArQrClick}
+              onClick={handleBtnWithdrawClick}
             >
-              Scan QR
+              Withdraw
             </Button>
           </HStack>
-          <Button
-            variant="primary"
-            flex="1"
-            w="100%"
-            py="8px"
-            fontSize="16px"
-            color="bgPrimary"
-            bg="textPrimary"
-            fontWeight="600"
-            onClick={() => ModalUtils.mintNft.onOpen()}
-          >
+        </VStack>
+        <VStack align="stretch" spacing="0" w="100%">
+          <Button variant="accountMenu" onClick={handleBtnProfileClick}>
+            Profile
+          </Button>
+          <Button variant="accountMenu" onClick={handleBtnMintNftClick}>
             Mint NFT
           </Button>
           <Button
-            variant="primary"
-            flex="1"
-            w="100%"
-            py="8px"
-            fontSize="16px"
-            color="bgPrimary"
-            bg="textPrimary"
-            fontWeight="600"
+            variant="accountMenu"
             onClick={requestLogout}
             isLoading={logoutLoading}
+            borderBottomRadius="12px"
           >
             Logout
           </Button>
         </VStack>
       </Box>
     ),
-    [
-      //balanceAvailable,
-      logoutLoading,
-    ]
+    [balanceAvailable, logoutLoading]
   );
 
   return (

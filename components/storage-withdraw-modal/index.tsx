@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useStorageDepositModal } from '../../hooks';
 
-export const StorageDepositModal = () => {
+export const StorageWithdrawModal = () => {
   const {
     storageDepositModalState: { isOpen, storageDepositState },
     storageDepositModalMethods: { onClose, storageDepositMethods },
@@ -25,7 +25,7 @@ export const StorageDepositModal = () => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add more balance for storage</ModalHeader>
+        <ModalHeader>Withdraw</ModalHeader>
         <ModalCloseButton _focus={{ boxShadow: 'none' }} />
         <ModalBody>
           <Alert
@@ -56,7 +56,7 @@ export const StorageDepositModal = () => {
               padding="8px 16px"
               bg="#000"
             >
-              Continue
+              Confirm
             </Button>
             <Button
               bg="#000"

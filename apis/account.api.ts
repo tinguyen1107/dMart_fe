@@ -6,6 +6,7 @@ import { AccountDto } from '../dtos';
 
 enum ContractMethods {
   storage_deposit = 'storage_deposit',
+  storage_withdraw = 'storage_withdraw',
   is_registered = 'is_registered',
   user_info = 'user_info',
   storage_minimum_balance = 'storage_minimum_balance',
@@ -19,6 +20,12 @@ export const AccountApi = Object.freeze({
       methodName: ContractMethods.storage_deposit,
       args: {},
       attachedDeposit: new BN(parseNearAmount('0.2') ?? 0),
+    });
+  },
+  async storageWithdraw(amount: number): Promise<void> {
+    await getContainer().bcConnector.callChangeMethod({
+      methodName: ContractMethods.storage_withdraw,
+      args: { amount: new BN(parseNearAmount(amount.toString()) ?? 0) },
     });
   },
   async isRegistered(): Promise<boolean> {
