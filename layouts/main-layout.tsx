@@ -9,7 +9,7 @@ export function MainLayout({ children }: PropsWithChildren) {
       <Box as="main" minH="calc(100vh)" overflowX="clip" pos="relative">
         <NavBar />
         <Box
-          bg="#2B2B2B"
+          bg="var(--bgPrimary)"
           h="calc(100vh)"
           pos="fixed"
           w="100%"

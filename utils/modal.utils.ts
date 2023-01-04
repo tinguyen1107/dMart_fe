@@ -6,7 +6,7 @@ export const ModalUtils: {
   addStorageBalance: ModalStateType;
   connectWallet: ModalStateType;
   placeChest: ModalStateType;
-  mintChest: ModalStateType;
+  mintNft: ModalStateType;
   composeMessage: ModalStateType;
   createPost: ModalStateType;
   selectGifModal: ModalStateType;
@@ -40,7 +40,7 @@ export const ModalUtils: {
     onOpen: () => {},
     onClose: () => {},
   },
-  mintChest: {
+  mintNft: {
     onOpen: () => {},
     onClose: () => {},
   },

@@ -196,13 +196,7 @@ const ArtistPage = () => {
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
               {profile.Created.map((card) => (
-                <GridItem
-                  key={card.id}
-                  w="auto"
-                  h="auto"
-                  bg="#2B2B2B"
-                  borderRadius="3xl"
-                >
+                <GridItem key={card.id}>
                   <NFTcard {...card} />
                 </GridItem>
               ))}
@@ -211,16 +205,14 @@ const ArtistPage = () => {
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
               {profile.Owned.map((card) => (
-                <GridItem
-                  key={card.id}
-                  w="auto"
-                  h="auto"
-                  bg="#2B2B2B"
-                  borderRadius="3xl"
-                >
+                <GridItem key={card.id}>
                   <NFTcard {...card} />
                 </GridItem>
               ))}
+              {!!listNft &&
+                listNft.map((card, id) => (
+                  <GridItem key={id}>{JSON.stringify(card)}</GridItem>
+                ))}
             </SimpleGrid>
           </TabPanel>
           <TabPanel>

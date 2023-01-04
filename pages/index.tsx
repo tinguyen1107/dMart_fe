@@ -27,7 +27,7 @@ const HomePage: NextPageWithLayout = () => {
         <Stack>
           <Box p="50px">
             <Text
-              color="white"
+              color="var(--textHeader)"
               as="b"
               fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
             >
@@ -37,7 +37,7 @@ const HomePage: NextPageWithLayout = () => {
           <TrendingCardCollection />
           <Box p="50px">
             <Text
-              color="white"
+              color="var(--textHeader)"
               as="b"
               fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
             >
@@ -47,7 +47,7 @@ const HomePage: NextPageWithLayout = () => {
           <DiscoverMoreNFT />
           <Box p="50px">
             <Text
-              color="white"
+              color="var(--textHeader)"
               as="b"
               fontSize={{ sm: '20', md: '30', lg: '40', xl: '50' }}
             >

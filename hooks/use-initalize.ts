@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { useToast } from '@chakra-ui/react';
-import { useBlockchain, useWalletAccountId } from '../core/hooks';
-import { useAccount, useApp } from './atoms';
+import { PostCache } from '../cache';
 import { StorageKeys } from '../constants';
+import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { DB } from '../db';
+import { AccountRepo, NFTRepo, NotiRepo } from '../repos';
+import { useAccount, useApp } from './atoms';
 import { getContainer } from '../core';
-import { AccountRepo } from '../repos';
+import { ModalUtils } from '../utils';
+import { QueryClient } from 'react-query';
+import { useToast } from '@chakra-ui/react';
 
 export const useInitialize = () => {
   const { blockchainState, blockchainMethods } = useBlockchain();
@@ -14,6 +17,7 @@ export const useInitialize = () => {
   const { accountState, accountMethods } = useAccount();
   const toast = useToast();
 
+  // TODO: clean code later (isAboutMePage)
   useEffect(() => {
     (async () => {
       await DB.init();
@@ -28,50 +32,47 @@ export const useInitialize = () => {
           getContainer().bcConnector.config.contractId
         );
       }
-      await blockchainMethods.connect();
+      await Promise.all([blockchainMethods.connect()]);
     })();
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js').then(
-          function (registration) {
-            console.log(
-              'Service Worker registration successful with scope: ',
-              registration.scope
-            );
-          },
-          function (err) {
-            console.log('Service Worker registration failed: ', err);
-          }
-        );
-      });
-    }
   }, []);
 
   useEffect(() => {
     if (!blockchainState.ready.value) return;
 
+    const isStaging = window.location.hostname.includes('vercel.app');
+    const hostnameItems = window.location.hostname.split('.');
+    const isAboutMePage = !isStaging && hostnameItems.length > 2;
+
     // Cache data before app ready
     (async () => {
-      // TODO: Add cache function here
-      const cacheData = Promise.all([]).then(() => {
-        console.info('App cached!!!');
-      });
+      // const cacheData = Promise.all([PostCache.cache()]).then(() => {
+      //   console.info('App cached!!!');
+      // });
 
       const checkIsRegisteredAndGetProfile = async () => {
         if (accountId) {
-          const [isRegistered, isAdmin] = await Promise.all([
+          const [
+            isRegistered,
+            // isAdmin
+          ] = await Promise.all([
             AccountRepo.isRegistered(),
-            AccountRepo.isAdmin(accountId),
+            // AccountRepo.isAdmin(accountId),
           ]);
           console.log('isRegistered', isRegistered);
-          console.log('isAdmin', isAdmin);
+          // console.log('isAdmin', isAdmin);
           accountState.isRegistered.set(isRegistered);
-          accountState.isAdmin.set(isAdmin);
-          await accountMethods.fetchProfile();
+          // accountState.isAdmin.set(isAdmin);
+          await Promise.all([
+            accountMethods.fetchProfile(),
+            // accountMethods.fetchBalance(),
+          ]);
         }
       };
 
-      await Promise.all([cacheData, checkIsRegisteredAndGetProfile()]);
+      await Promise.all([
+        //cacheData,
+        checkIsRegisteredAndGetProfile(),
+      ]);
 
       // Set app ready
       appState.merge({

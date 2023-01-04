@@ -93,7 +93,7 @@ export const DiscoverMoreNFT = (props: any) => {
   return (
     <HStack
       flexDirection="row"
-      spacing={0}
+      spacing="8px"
       overflowY="scroll"
       css={{
         '&::-webkit-scrollbar': {

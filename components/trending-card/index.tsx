@@ -19,7 +19,10 @@ import {
   GridItem,
   HStack,
   Img,
+  AspectRatio,
+  VStack,
 } from '@chakra-ui/react';
+import { Avatar } from '../avatar';
 
 interface CARD {
   label: string;
@@ -61,66 +64,79 @@ const CARD_ITEM: Array<CARD> = [
 ];
 
 export const TrendingCard = ({ top, left, mid, right }: CARD) => {
+  // <Grid
+  //   templateAreas={`"top top top"
+  //                  "left mid right"
+  //                 "name name name"`}
+  //   h="1fr"
+  //   gap={{ base: '5px', lg: '20px' }}
+  //   color="blackAlpha.700"
+  //   fontWeight="bold"
+  //   w="100%"
+  // >
+  //   <GridItem area={'top'}>
+  //     <AspectRatio ratio={1}>
+  //       <Img src={top} alt="top"></Img>
+  //     </AspectRatio>
+  //   </GridItem>
+  //   <GridItem area={'left'}>
+  //     <Img src={left} alt="left"></Img>
+  //   </GridItem>
+  //   <GridItem area={'mid'}>
+  //     <Img src={mid}></Img>
+  //   </GridItem>
+  //   <GridItem area={'right'}>
+  //     <Img src={right} alt="right"></Img>
+  //   </GridItem>
+  //   <GridItem area={'name'}>
+  //     <Stack px="8px" spacing="0" mb="15px">
+  //       <Flex as="b" color="white" fontSize={{ base: '18', md: '22' }}>
+  //         DSGN Animals
+  //       </Flex>
+  //       <Flex as="b" color="white" fontSize={{ base: '14', md: '16' }}>
+  //         Mr Fox
+  //       </Flex>
+  //     </Stack>
+  //   </GridItem>
+  // </Grid>
   return (
-    <Box p="20px" bg="#2B2B2B">
-      <Grid
-        templateAreas={`"top top top"
-                       "left mid right"
-                      "name name name"`}
-        gridTemplateRows={{
-          sm: '1fr 20px 40px',
-          md: '1fr 50px 60px',
-          lg: '1fr 70px 80px',
-          xl: '1fr 70px 80px',
-        }}
-        gridTemplateColumns={{
-          sm: '50px 50px 50px',
-          md: '75px 75px 75px',
-          lg: '100px 100px 100px',
-          xl: '100px 100px 100px',
-        }}
-        h="1fr"
-        gap={{ sm: '5', md: '5', lg: '30', xl: '30' }}
-        color="blackAlpha.700"
-        fontWeight="bold"
-      >
-        <GridItem pl="2" bg="#2B2B2B" area={'top'}>
-          {' '}
+    <VStack p="10px" bg="#2B2B2B" borderRadius="3xl">
+      <Box w="100%">
+        <AspectRatio ratio={1}>
           <Img src={top} alt="top"></Img>
-        </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'left'}>
-          {' '}
-          <Img src={left} alt="left"></Img>
-        </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'mid'}>
-          {' '}
-          <Img src={mid}></Img>
-        </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'right'}>
-          {' '}
-          <Img src={right} alt="right"></Img>
-        </GridItem>
-        <GridItem pl="2" bg="#2B2B2B" area={'name'}>
-          <Stack>
-            <Flex
-              as="b"
-              color="white"
-              fontSize={{ sm: '10', md: '20', lg: '25', xl: '25' }}
-            >
-              DSGN Animals
-            </Flex>
-            <Flex
-              as="b"
-              color="white"
-              fontSize={{ sm: '5', md: '10', lg: '15', xl: '15' }}
-            >
-              {' '}
-              Mr Fox
-            </Flex>
-          </Stack>
-        </GridItem>
-      </Grid>
-    </Box>
+        </AspectRatio>
+      </Box>
+      <HStack w="100%">
+        <Box flex={1}>
+          <AspectRatio ratio={1}>
+            <Img src={top} alt="top"></Img>
+          </AspectRatio>
+        </Box>
+        <Box flex={1}>
+          <AspectRatio ratio={1}>
+            <Img src={left} alt="top"></Img>
+          </AspectRatio>
+        </Box>
+        <Box flex={1}>
+          <AspectRatio ratio={1}>
+            <Img src={left} alt="top"></Img>
+          </AspectRatio>
+        </Box>
+      </HStack>
+      <Box w="100%" color="#fff" px="10px" pb="10px">
+        <Text fontWeight="800" fontSize="20px">
+          DSGN Animals
+        </Text>
+        <HStack>
+          <Box w="24px" h="24px">
+            <Avatar accountId={'Mr fox'} url={undefined} />
+          </Box>
+          <Text fontWeight="600" fontSize="16px">
+            Mr Fox
+          </Text>
+        </HStack>
+      </Box>
+    </VStack>
   );
 };
 
@@ -128,7 +144,7 @@ export const TrendingCardCollection = (props: any) => {
   return (
     <HStack
       flexDirection="row"
-      spacing={0}
+      spacing="8px"
       overflowY="scroll"
       css={{
         '&::-webkit-scrollbar': {
@@ -136,8 +152,10 @@ export const TrendingCardCollection = (props: any) => {
         },
       }}
     >
-      {CARD_ITEM.map((child) => (
-        <TrendingCard key={child.label} {...child} />
+      {CARD_ITEM.map((child, id) => (
+        <Box key={id} minW="300px">
+          <TrendingCard {...child} />
+        </Box>
       ))}
     </HStack>
   );

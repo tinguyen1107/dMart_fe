@@ -12,7 +12,7 @@ export const HeadLine = () => {
     <Box p="50px" bg="#2B2B2B" paddingTop="100px" color="white" mt="auto">
       <Box px="60px" py="8px">
         <Text fontSize="4xl" as="b">
-          Browse Marketplace
+          Marketplace
         </Text>
         <Text mt={2}>
           Browse through more than 50k NFTs on the NFT Marketplace.
