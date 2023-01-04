@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { PostCache } from '../cache';
+// import { PostCache } from '../cache';
 import { StorageKeys } from '../constants';
 import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { DB } from '../db';
-import { AccountRepo, NFTRepo, NotiRepo } from '../repos';
+import { AccountRepo, NFTRepo } from '../repos';
 import { useAccount, useApp } from './atoms';
 import { getContainer } from '../core';
 import { ModalUtils } from '../utils';
