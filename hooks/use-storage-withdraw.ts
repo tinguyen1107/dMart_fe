@@ -3,23 +3,24 @@ import { AccountRepo } from '../repos';
 import { useCallback, useRef } from 'react';
 
 export const useStorageWithdraw = () => {
-  const amountRef = useRef<any>();
-  const useStorageDepositMutation = useMutation(() =>
-    AccountRepo.storageWithdraw(amountRef.current.value)
+  const amountInputRef = useRef<any>();
+  const useStorageWithdrawMutation = useMutation(() =>
+    AccountRepo.storageWithdraw(amountInputRef.current.value)
   );
 
-  const deposit = useCallback(
-    () => useStorageDepositMutation.mutateAsync(),
+  const withdraw = useCallback(
+    () => useStorageWithdrawMutation.mutateAsync(),
     []
   );
 
   return {
-    storageDepositState: {
-      isLoading: useStorageDepositMutation.isLoading,
-      data: useStorageDepositMutation.data,
+    storageWithdrawState: {
+      isLoading: useStorageWithdrawMutation.isLoading,
+      data: useStorageWithdrawMutation.data,
+      amountInputRef,
     },
-    storageDepositMethods: {
-      deposit,
+    storageWithdrawMethods: {
+      withdraw,
     },
   };
 };
