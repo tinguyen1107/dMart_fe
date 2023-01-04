@@ -16,6 +16,7 @@ import {
   useBreakpointValue,
   useDisclosure,
   Center,
+  Spinner,
 } from '@chakra-ui/react';
 // import {CloseIcon, MenuIcon} from 'react-icons/fa'
 import { BiMenu, BiX } from 'react-icons/bi';
@@ -24,9 +25,15 @@ import { LoginButton } from '../login-button';
 import { Brand } from '../brand';
 import { useWindowScroll } from 'react-use';
 import { MAX_WIDTH_CONTENT } from '../../constants';
+import { useHeader } from '../../hooks';
+import { HeaderAccount } from '../header-account';
 
 export const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const {
+    headerState: { walletLoading, account, logged, accountId: userId },
+    headerMethods: { signOut },
+  } = useHeader();
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -42,9 +49,23 @@ export const NavBar = (props: any) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/marketplace">Marketplace</MenuItem>
-        <MenuItem to="/ranking">Ranking</MenuItem>
-        <MenuItem to="/wallet">Connect Wallet</MenuItem>
-        <LoginButton />
+        {/*         <MenuItem to="/ranking">Ranking</MenuItem> */}
+
+        {walletLoading ? (
+          <Spinner color="violetPrimary" />
+        ) : logged ? (
+          // Did login
+          <HeaderAccount
+            logoutLoading={walletLoading}
+            requestLogout={signOut}
+            accountName={userId!}
+            avatarSrc={account?.avatar}
+            displayName={account?.displayName}
+          />
+        ) : (
+          <LoginButton />
+        )}
+
         <MenuToggle toggle={toggle} isOpen={isOpen} />
       </Stack>
     </NavBarContainer>
@@ -70,6 +91,7 @@ const NavBarContainer = ({ children, ...props }: any) => {
     <Center
       position="fixed"
       w="100%"
+      zIndex="100"
       {...(y > targetPositionY ? headerStyle : {})}
     >
       <Flex
