@@ -18,6 +18,11 @@ import {
   useDisclosure,
   LinkBox,
   ControlBox,
+  Center,
+  AspectRatio,
+  Image,
+  Spinner,
+  CloseButton,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from '@chakra-ui/react';
@@ -28,9 +33,10 @@ import { useHookstate } from '@hookstate/core';
 // import { ChestState } from '../../store';
 import ResizeTextarea from 'react-textarea-autosize';
 import { ModalUtils } from '../../utils';
+import { useMintNft } from '../../hooks';
+import { BiImageAdd } from 'react-icons/bi';
 //
 export const MintNftModal: React.FunctionComponent<{}> = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   // const {
   //   blockchainMethods: { signIn },
   // } = useBlockchain();
@@ -45,10 +51,17 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
   //   onOpen();
   // }, []);
 
-  useEffect(() => {
-    ModalUtils.mintNft.onOpen = onOpen;
-    ModalUtils.mintNft.onClose = onClose;
-  }, []);
+  const {
+    mintNftModalState: { isOpen, fileInputRef, mintNftForm, mintNftPublishing },
+    mintNftModalMethods: {
+      onOpen,
+      onClose,
+      onRemove,
+      openFileImport,
+      uploadFileMutation,
+      handleMintNftFormSubmit,
+    },
+  } = useMintNft();
   // const chestState = useHookstate(ChestState);
   // const [centerPosition, _setCenterPosition] = useState<Position | undefined>();
   //
@@ -91,35 +104,35 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
   //   placeChestForm.setValue('location', place_chest);
   // }, [placeChest]);
   //
-  // const MAX_MESSAGE_CHARACTERS = 280;
-  // const MAX_TITLE_CHARACTERS = 80;
-  //
-  // const indicatorNameCharacters = React.useMemo(
-  //   () => ({
-  //     remain:
-  //       MAX_TITLE_CHARACTERS - (placeChestForm.watch('name')?.length ?? 0),
-  //     percent:
-  //       ((placeChestForm.watch('name')?.length ?? 0) / MAX_TITLE_CHARACTERS) *
-  //       100,
-  //   }),
-  //   [placeChestForm.watch('name')?.length]
-  // );
-  //
-  // const indicatorMessageCharacters = React.useMemo(
-  //   () => ({
-  //     remain:
-  //       MAX_MESSAGE_CHARACTERS - (placeChestForm.watch('message')?.length ?? 0),
-  //     percent:
-  //       ((placeChestForm.watch('message')?.length ?? 0) /
-  //         MAX_MESSAGE_CHARACTERS) *
-  //       100,
-  //   }),
-  //   [placeChestForm.watch('message')?.length]
-  // );
+  const MAX_MESSAGE_CHARACTERS = 280;
+  const MAX_TITLE_CHARACTERS = 80;
+  const indicatorNameCharacters = React.useMemo(
+    () => ({
+      remain: MAX_TITLE_CHARACTERS - (mintNftForm.watch('title')?.length ?? 0),
+      percent:
+        ((mintNftForm.watch('title')?.length ?? 0) / MAX_TITLE_CHARACTERS) *
+        100,
+    }),
+    [mintNftForm.watch('title')?.length]
+  );
+
+  const indicatorDescriptionCharacters = React.useMemo(
+    () => ({
+      remain:
+        MAX_MESSAGE_CHARACTERS -
+        (mintNftForm.watch('description')?.length ?? 0),
+      percent:
+        ((mintNftForm.watch('description')?.length ?? 0) /
+          MAX_MESSAGE_CHARACTERS) *
+        100,
+    }),
+    [mintNftForm.watch('description')?.length]
+  );
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
+      size={{ base: 'full', sm: 'md', md: '2xl' }}
       closeOnOverlayClick={false}
       motionPreset="slideInBottom"
     >
@@ -132,7 +145,7 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
           flex={1}
         >
           <ModalHeader>
-            <Text fontWeight="800" fontSize="16px" color="var(--textHeader)">
+            <Text fontWeight="800" fontSize="20px" color="var(--textHeader)">
               Mint NFT
             </Text>
             <Text
@@ -146,7 +159,7 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
             color="textSloganHomepage"
             _focus={{ boxShadow: 'none' }}
           />
-          <form>
+          <form onSubmit={handleMintNftFormSubmit}>
             <Stack pt="8px" direction={{ base: 'column', lg: 'row' }}>
               <ModalBody flex={1}>
                 <VStack spacing="1em" w="100%" fontSize="12px" fontWeight="800">
@@ -158,50 +171,54 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                           fontWeight="400"
                           fontSize="11px"
                           color={
-                            undefined
-                            // indicatorNameCharacters.remain > 20
-                            //   ? undefined
-                            //   : indicatorNameCharacters.remain >= 0
-                            //   ? 'orange'
-                            //   : 'red'
-                            // {placeChestForm.watch('name')?.length ?? 0}/
-                            // {MAX_TITLE_CHARACTERS}
-                            // {...placeChestForm.register('name')}
+                            indicatorNameCharacters.remain > 20
+                              ? undefined
+                              : indicatorNameCharacters.remain >= 0
+                              ? 'orange'
+                              : 'red'
                           }
                         >
-                          0
+                          {mintNftForm.watch('title')?.length ?? 0}/
+                          {MAX_TITLE_CHARACTERS}
                         </Text>
                       </HStack>
                       <Input
                         variant="primary"
                         py="11px"
-                        placeholder="Enter recipient's name"
+                        bg="var(--bgSecondary)"
+                        placeholder="Enter title of NFT"
                         h="40px"
                         as={ResizeTextarea}
                         resize="none"
+                        {...mintNftForm.register('title')}
                       />
                     </Box>
                   </FormControl>
                   <FormControl>
                     <Box w="100%">
-                      <Text pl="4px">Code (optional)</Text>
-                      <Input variant="primary" placeholder="Place a key code" />
-                    </Box>
-                  </FormControl>
-                  <FormControl>
-                    <Box w="100%">
                       <HStack justifyContent="space-between">
-                        <Text pl="4px">Message (optional)</Text>
-                        <Text fontWeight="400" fontSize="11px">
-                          0
+                        <Text pl="4px">Description</Text>
+                        <Text
+                          fontWeight="400"
+                          fontSize="11px"
+                          color={
+                            indicatorDescriptionCharacters.remain > 20
+                              ? undefined
+                              : indicatorDescriptionCharacters.remain >= 0
+                              ? 'orange'
+                              : 'red'
+                          }
+                        >
+                          {mintNftForm.watch('description')?.length ?? 0}/
+                          {MAX_TITLE_CHARACTERS}
                         </Text>
                       </HStack>
                       <Textarea
                         as={ResizeTextarea}
                         resize="none"
+                        bg="var(--bgSecondary)"
                         variant="primary"
                         placeholder="Message for the person opening this chest."
-                        background="bgSecondary"
                         fontSize="12px"
                         fontWeight="400"
                         padding="14px 8px"
@@ -210,9 +227,60 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                         _placeholder={{
                           color: 'textSecondary',
                         }}
+                        {...mintNftForm.register('description')}
                       />
                     </Box>
                   </FormControl>
+                  <Box
+                    w="100%"
+                    bg="var(--bgSecondary)"
+                    borderRadius="10px"
+                    cursor="pointer"
+                    _hover={{ opacity: 0.75 }}
+                    onClick={openFileImport}
+                    minH="100px"
+                    pos="relative"
+                  >
+                    {!mintNftForm.watch('media') ? (
+                      uploadFileMutation.isLoading ? (
+                        <Center minH="100px" h="100%">
+                          <Spinner />
+                        </Center>
+                      ) : (
+                        <AspectRatio ratio={16 / 9}>
+                          <Center w="100%">
+                            <BiImageAdd size="100" />
+                          </Center>
+                        </AspectRatio>
+                      )
+                    ) : (
+                      <>
+                        <CloseButton
+                          borderRadius="full"
+                          position="absolute"
+                          top="10px"
+                          right="10px"
+                          color="white"
+                          zIndex="1000"
+                          bg="blackAlpha.500"
+                          onClick={onRemove}
+                        />
+                        <Image
+                          src={mintNftForm.getValues('media')}
+                          borderRadius="10px"
+                        />
+                      </>
+                    )}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      hidden
+                      onChange={async () => {
+                        await uploadFileMutation.mutateAsync();
+                        mintNftForm.trigger('media');
+                      }}
+                    />
+                  </Box>
                 </VStack>
               </ModalBody>
             </Stack>
@@ -221,17 +289,14 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                 w="100%"
                 variant="primary"
                 padding="8px 16px"
-                isLoading={
-                  false //createPostPublishing
-                }
+                isLoading={mintNftPublishing}
                 type="submit"
                 isDisabled={
-                  true
                   // indicatorMessageCharacters.remain < 0 ||
-                  // indicatorNameCharacters.remain < 0
+                  indicatorNameCharacters.remain < 0
                 }
               >
-                Place
+                Mint
               </Button>
             </ModalFooter>
           </form>

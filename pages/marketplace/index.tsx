@@ -15,7 +15,7 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { NavBar, NFTcard, HeadLine, TrendingCard } from '../../components';
+import { NavBar, NftCard, HeadLine, TrendingCard } from '../../components';
 
 const marketplace = () => {
   const nfts = [
@@ -79,6 +79,11 @@ const marketplace = () => {
       right: 'https://i.ibb.co/3NKh8HX/top.png',
     },
   ];
+  // {nfts.map((card) => (
+  //   <GridItem key={card.id}>
+  //     <NftCard {...card} />
+  //   </GridItem>
+  // ))}
   return (
     <>
       <Header>
@@ -100,13 +105,11 @@ const marketplace = () => {
             </TabList>
             <TabPanels bg="#3B3B3B">
               <TabPanel>
-                <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px">
-                  {nfts.map((card) => (
-                    <GridItem key={card.id}>
-                      <NFTcard {...card} />
-                    </GridItem>
-                  ))}
-                </SimpleGrid>
+                <SimpleGrid
+                  columns={[1, 2, 3]}
+                  gap="30px"
+                  mt="60px"
+                ></SimpleGrid>
               </TabPanel>
               <TabPanel>
                 <Grid

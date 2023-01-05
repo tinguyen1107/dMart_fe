@@ -1,4 +1,9 @@
-import { Image, Avatar as ChakraAvatar, AspectRatio } from '@chakra-ui/react';
+import {
+  Image,
+  Avatar as ChakraAvatar,
+  AspectRatio,
+  Box,
+} from '@chakra-ui/react';
 import React from 'react';
 
 export const Avatar: React.FunctionComponent<{
