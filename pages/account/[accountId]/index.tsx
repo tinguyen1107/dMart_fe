@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from 'next/head';
 import {
   Box,
   Tabs,
@@ -7,20 +8,18 @@ import {
   Tab,
   TabPanel,
   Text,
-  Badge,
   Avatar,
   Image,
   HStack,
   VStack,
   Heading,
   Button,
-  Spacer,
   SimpleGrid,
   Grid,
   GridItem,
+  AspectRatio,
 } from '@chakra-ui/react';
 import {
-  FaCopy,
   FaPlus,
   FaGlobe,
   FaDiscord,
@@ -28,14 +27,14 @@ import {
   FaTwitter,
   FaInstagram,
 } from 'react-icons/fa';
-import { TrendingCard, NftCard, NavBar } from '../../../components';
-import { AccountApi } from '../../../apis';
+import { TrendingCard, NftCard } from '../../../components';
 import { useAccountPage } from '../../../hooks';
 import { useRouter } from 'next/router';
 import { Optional } from '../../../core/types';
-import { NFT, NFTMetadata } from '../../../dtos';
+import { NFT } from '../../../dtos';
+import { MainLayout } from '../../../layouts';
 
-const ArtistPage = () => {
+const AccountPage = () => {
   const profile = {
     name: 'AnimaKid',
     Volume: '250k',
@@ -87,6 +86,8 @@ const ArtistPage = () => {
     accountPageState: { accountQuery, nftQuery },
   } = useAccountPage({ accountId });
 
+  const { data: account } = accountQuery;
+
   const listNft = React.useMemo(() => {
     if (nftQuery.data?.pages.length) {
       let data = nftQuery.data.pages.reduce(
@@ -110,136 +111,168 @@ const ArtistPage = () => {
     } else return undefined;
   }, [nftQuery.data?.pages]);
   return (
-    <Box bg="#2B2B2B" color={'whiteAlpha.900'} h="auto">
-      <NavBar />
-      <Box w="full" h="auto" pb="10px" paddingTop="100px">
-        <Image src={profile.Wall_url} w="full" h="370px" />
-        <Avatar src={profile.Avatar_url} size="2xl" ml="7%" mt="-54px" />
-      </Box>
-      <Box px="5%">
-        <VStack spacing="24px" align={'left'}>
-          <HStack pr="20px">
-            <Heading size={'2xl'}>{profile.name}</Heading>
-            <Spacer />
-            <Button
-              borderRadius={'2xl'}
-              variant="solid"
-              size={{ md: 'md', lg: 'lg' }}
-              colorScheme="purple"
-              leftIcon={<FaCopy />}
-            >
-              {profile.publicKey}
-            </Button>
-            <Button
-              borderRadius={'2xl'}
-              variant="outline"
-              size={{ md: 'md', lg: 'lg' }}
-              colorScheme="purple"
-              leftIcon={<FaPlus />}
-            >
-              Follow
-            </Button>
-          </HStack>
-          <HStack spacing={'50px'}>
-            <VStack alignItems={'left'}>
-              <Text fontWeight={'bold'} fontSize="xl">
-                {profile.Volume}
-              </Text>
-              <Text fontSize="lg">Volume</Text>
-            </VStack>
-            <VStack alignItems={'left'}>
-              <Text fontWeight={'bold'} fontSize="xl">
-                {profile.SoldNFT}
-              </Text>
-              <Text fontSize="lg">NFTs Sold</Text>
-            </VStack>
-            <VStack alignItems={'left'}>
-              <Text fontWeight={'bold'} fontSize="xl">
-                {profile.Followers}
-              </Text>
-              <Text fontSize="lg">Followers</Text>
-            </VStack>
-          </HStack>
-          <Text textColor={'gray'} fontWeight="bold" fontSize="xl">
-            Bio
-          </Text>
-          <Text fontSize="lg">{profile.Bio}</Text>
-          <Text textColor={'gray'} fontWeight="bold" fontSize="xl">
-            Links
-          </Text>
-          <HStack spacing="16px">
-            <FaGlobe size={'32px'} />
-            <FaDiscord size={'32px'} />
-            <FaYoutube size={'32px'} />
-            <FaTwitter size={'32px'} />
-            <FaInstagram size={'32px'} />
-          </HStack>
-        </VStack>
-      </Box>
-
-      <Tabs isFitted variant="unstyled" bg="#3B3B3B" mt="32px">
-        <TabList color={'white'} bg="#2B2B2B" as="b">
-          <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-            <Text> Created </Text>
-            <Badge mx={4}>{profile.Created.length}</Badge>
-          </Tab>
-          <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-            <Text> Owned </Text>
-            <Badge mx={4}>{profile.Owned.length}</Badge>
-          </Tab>
-          <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-            <Text> Collection </Text>
-            <Badge mx={4}>{profile.Collection.length}</Badge>
-          </Tab>
-        </TabList>
-        <TabPanels bg="#3B3B3B">
-          <TabPanel>
-            <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
-              {!!listNft &&
-                listNft.map((nft, id) => (
-                  <GridItem key={id}>
-                    <NftCard data={nft} />
-                  </GridItem>
-                ))}
-            </SimpleGrid>
-          </TabPanel>
-          <TabPanel>
-            <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
-              {!!listNft &&
-                listNft.map((nft, id) => (
-                  <GridItem key={id}>
-                    <NftCard data={nft} />
-                  </GridItem>
-                ))}
-              {!!listNft &&
-                listNft.map((card, id) => (
-                  <GridItem key={id}>{JSON.stringify(card)}</GridItem>
-                ))}
-            </SimpleGrid>
-          </TabPanel>
-          <TabPanel>
-            <Grid
-              templateColumns="repeat(3, 1fr)"
-              gap={{ sm: '5', md: '5', lg: '30' }}
-              mt="60px"
-              px={'10%'}
-            >
-              {profile.Collection.map((child) => (
-                <GridItem
-                  key={child.label}
-                  w="auto"
-                  h="auto"
-                  bg="#2B2B2B"
-                  borderRadius="3xl"
+    <>
+      <Header>
+        <title>DMart</title>
+      </Header>
+      {/* <Box pos="absolute">
+        <Box w="full" h="auto" pb="10px" pos="relative">
+          <Box
+            pos="absolute"
+            h="100%"
+            w="100%"
+            bg="linear-gradient(to top, var(--bgPrimary) 25%, transparent 60%)"
+          />
+          <Image
+            src={
+              account?.accountInfo.thumbnail ??
+              'https://img.freepik.com/free-vector/night-ocean-landscape-full-moon-stars-shine_107791-7397.jpg?w=2000'
+            }
+            w="full"
+            h="400px"
+            objectFit="cover"
+          />
+        </Box>
+      </Box> */}
+      <MainLayout>
+        <Box h="100px" />
+        <Box bg="var(--bgPrimary)" borderRadius="12px">
+          <Box w="full" pos="relative">
+            <AspectRatio ratio={4 / 1}>
+              <Image
+                src={
+                  account?.accountInfo.thumbnail ??
+                  'https://img.freepik.com/free-vector/night-ocean-landscape-full-moon-stars-shine_107791-7397.jpg?w=2000'
+                }
+                w="full"
+                h="400px"
+                borderTopRadius="12px"
+                objectFit="cover"
+              />
+            </AspectRatio>
+            <Avatar
+              src={
+                account?.accountInfo.avatar ??
+                'http://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png'
+              }
+              size="2xl"
+              ml="7%"
+              mt="-64px"
+            />
+          </Box>
+          <Box p="20px 30px 30px">
+            <VStack spacing="24px" align="left">
+              <HStack pr="20px" justifyContent="space-between">
+                <Box>
+                  <Heading size={'2xl'}>
+                    {account?.accountInfo.displayName}
+                  </Heading>
+                  <Text mt="5px">@{account?.id}</Text>
+                </Box>
+                <Button
+                  borderRadius={'2xl'}
+                  variant="outline"
+                  size={{ md: 'md', lg: 'lg' }}
+                  colorScheme="purple"
+                  leftIcon={<FaPlus />}
                 >
-                  <TrendingCard {...child} />
-                </GridItem>
-              ))}
-            </Grid>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Box>
+                  Follow
+                </Button>
+              </HStack>
+              <HStack spacing={'50px'}>
+                <VStack alignItems={'left'}>
+                  <Text fontWeight={'bold'} fontSize="xl">
+                    {profile.Volume}
+                  </Text>
+                  <Text fontSize="lg">Volume</Text>
+                </VStack>
+                <VStack alignItems={'left'}>
+                  <Text fontWeight={'bold'} fontSize="xl">
+                    {profile.SoldNFT}
+                  </Text>
+                  <Text fontSize="lg">NFTs Sold</Text>
+                </VStack>
+                <VStack alignItems={'left'}>
+                  <Text fontWeight={'bold'} fontSize="xl">
+                    {profile.Followers}
+                  </Text>
+                  <Text fontSize="lg">Followers</Text>
+                </VStack>
+              </HStack>
+              <Text textColor={'gray'} fontWeight="bold" fontSize="xl">
+                Bio
+              </Text>
+              <Text fontSize="lg">{profile.Bio}</Text>
+              <Text textColor={'gray'} fontWeight="bold" fontSize="xl">
+                Links
+              </Text>
+              <HStack spacing="16px">
+                <FaGlobe size={'32px'} />
+                <FaDiscord size={'32px'} />
+                <FaYoutube size={'32px'} />
+                <FaTwitter size={'32px'} />
+                <FaInstagram size={'32px'} />
+              </HStack>
+            </VStack>
+          </Box>
+        </Box>
+
+        <Tabs isFitted variant="unstyled" mt="20px" minH="600px">
+          <TabList color={'white'} as="b">
+            <Tab
+              _selected={{
+                color: '#fe8668',
+                borderBottomWidth: '2px',
+                borderBottomColor: '#fe8668',
+              }}
+            >
+              <Text> My Bag </Text>
+            </Tab>
+            <Tab
+              _selected={{
+                color: '#fe8668',
+                borderBottomWidth: '2px',
+                borderBottomColor: '#fe8668',
+              }}
+            >
+              <Text> Selling </Text>
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
+                {!!listNft &&
+                  listNft.map((nft, id) => (
+                    <GridItem key={id}>
+                      <NftCard data={nft} />
+                    </GridItem>
+                  ))}
+              </SimpleGrid>
+            </TabPanel>
+            <TabPanel>
+              <Grid
+                templateColumns="repeat(3, 1fr)"
+                gap={{ sm: '5', md: '5', lg: '30' }}
+                mt="60px"
+                px={'10%'}
+              >
+                {profile.Collection.map((child) => (
+                  <GridItem
+                    key={child.label}
+                    w="auto"
+                    h="auto"
+                    bg="#2B2B2B"
+                    borderRadius="3xl"
+                  >
+                    <TrendingCard {...child} />
+                  </GridItem>
+                ))}
+              </Grid>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </MainLayout>
+    </>
   );
 };
-export default ArtistPage;
+export default AccountPage;

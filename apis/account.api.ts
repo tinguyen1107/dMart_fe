@@ -2,13 +2,14 @@ import { BN } from 'bn.js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { getContainer } from '../core';
 import { TransactionAction } from '../core/types';
+import { parseToUsername } from '../core/utils';
 import { AccountDto, AccountInfoDto } from '../dtos';
 
 enum ContractMethods {
   storage_deposit = 'storage_deposit',
   storage_withdraw = 'storage_withdraw',
   is_registered = 'is_registered',
-  user_info = 'user_info',
+  set_account_info = 'set_account_info',
   storage_minimum_balance = 'storage_minimum_balance',
   is_admin = 'is_admin',
   get_account = 'get_account',
@@ -68,6 +69,16 @@ export const AccountApi = Object.freeze({
     }
     throw new Error(`Account does not exist ${accountId}`);
   },
+  async setAccountInfo(payload: AccountInfoDto): Promise<void> {
+    const args = {
+      account_info: btoa(JSON.stringify(payload)),
+    };
+
+    await getContainer().bcConnector.callChangeMethod({
+      methodName: ContractMethods.set_account_info,
+      args,
+    });
+  },
 });
 
 const mapToAccounts = (raws: any[]): AccountDto[] => {
@@ -80,6 +91,8 @@ const mapToRawAccount = (item: any): AccountDto => {
   const accountInfo: AccountInfoDto = item[1]?.account_info
     ? JSON.parse(atob(item[1]?.account_info))
     : null;
+  if (!accountInfo?.displayName)
+    accountInfo.displayName = parseToUsername(item[0]);
   return {
     id: item[0],
     accountInfo,
@@ -93,7 +106,9 @@ const mapToRawAccount = (item: any): AccountDto => {
 const mapToAccount = (item: any): AccountDto => {
   const accountInfo: AccountInfoDto = item?.account_info
     ? JSON.parse(atob(item?.account_info))
-    : null;
+    : {};
+  if (!accountInfo?.displayName)
+    accountInfo.displayName = parseToUsername(item.account_id);
   return {
     id: item.account_id,
     accountInfo,
