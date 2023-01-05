@@ -1,19 +1,19 @@
 export type AccountInfoDto = {
-  avatar: string;
-  thumbnail: string;
+  avatar?: string;
+  thumbnail?: string;
 
-  displayName: string;
-  bio: string;
+  displayName?: string;
+  bio?: string;
 
-  email: string;
-  location: string;
+  email?: string;
+  location?: string;
 
-  twitter: string;
-  github: string;
-  telegram: string;
-  linkedin: string;
-  behance: string;
-  website: string;
+  twitter?: string;
+  github?: string;
+  telegram?: string;
+  linkedin?: string;
+  behance?: string;
+  website?: string;
 };
 export type AccountDto = {
   id: string;
