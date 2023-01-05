@@ -28,7 +28,7 @@ import {
   FaTwitter,
   FaInstagram,
 } from 'react-icons/fa';
-import { TrendingCard, NFTcard, NavBar } from '../../../components';
+import { TrendingCard, NftCard, NavBar } from '../../../components';
 import { AccountApi } from '../../../apis';
 import { useAccountPage } from '../../../hooks';
 import { useRouter } from 'next/router';
@@ -195,20 +195,22 @@ const ArtistPage = () => {
         <TabPanels bg="#3B3B3B">
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
-              {profile.Created.map((card) => (
-                <GridItem key={card.id}>
-                  <NFTcard {...card} />
-                </GridItem>
-              ))}
+              {!!listNft &&
+                listNft.map((nft, id) => (
+                  <GridItem key={id}>
+                    <NftCard data={nft} />
+                  </GridItem>
+                ))}
             </SimpleGrid>
           </TabPanel>
           <TabPanel>
             <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
-              {profile.Owned.map((card) => (
-                <GridItem key={card.id}>
-                  <NFTcard {...card} />
-                </GridItem>
-              ))}
+              {!!listNft &&
+                listNft.map((nft, id) => (
+                  <GridItem key={id}>
+                    <NftCard data={nft} />
+                  </GridItem>
+                ))}
               {!!listNft &&
                 listNft.map((card, id) => (
                   <GridItem key={id}>{JSON.stringify(card)}</GridItem>

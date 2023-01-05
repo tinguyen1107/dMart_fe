@@ -18,4 +18,5 @@ export type NFTMetadata = {
 export type NFT = {
   metadata: NFTMetadata;
   tokenId: string;
+  ownerId: string;
 };

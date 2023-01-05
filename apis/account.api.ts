@@ -2,7 +2,7 @@ import { BN } from 'bn.js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { getContainer } from '../core';
 import { TransactionAction } from '../core/types';
-import { AccountDto } from '../dtos';
+import { AccountDto, AccountInfoDto } from '../dtos';
 
 enum ContractMethods {
   storage_deposit = 'storage_deposit',
@@ -46,15 +46,6 @@ export const AccountApi = Object.freeze({
     });
     return res;
   },
-  async getUserInfo(account_id: string): Promise<AccountDto> {
-    const res = await getContainer().bcConnector.callViewMethod({
-      methodName: ContractMethods.user_info,
-      args: {
-        account_id,
-      },
-    });
-    return res;
-  },
   async isAdmin(account_id: string): Promise<boolean> {
     const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.is_admin,
@@ -86,23 +77,29 @@ const mapToAccounts = (raws: any[]): AccountDto[] => {
 };
 
 const mapToRawAccount = (item: any): AccountDto => {
+  const accountInfo: AccountInfoDto = item[1]?.account_info
+    ? JSON.parse(atob(item[1]?.account_info))
+    : null;
   return {
     id: item[0],
-    avatar: item[1]?.avatar,
-    thumbnail: item[1]?.thumbnail,
-    bio: item[1]?.bio,
-    displayName: item?.display_name,
+    accountInfo,
+    numFollowers: item[1]?.num_followers,
+    numFollowing: item[1]?.num_following,
+    numNfts: item[1]?.num_nfts,
     nfts: item[1]?.nfts,
   };
 };
 
 const mapToAccount = (item: any): AccountDto => {
+  const accountInfo: AccountInfoDto = item?.account_info
+    ? JSON.parse(atob(item?.account_info))
+    : null;
   return {
     id: item.account_id,
-    avatar: item.avatar,
-    thumbnail: item.thumbnail,
-    bio: item.bio,
-    displayName: item.display_name,
+    accountInfo,
+    numFollowers: item?.num_followers,
+    numFollowing: item?.num_following,
+    numNfts: item?.num_nfts,
     nfts: item?.nfts,
   };
 };

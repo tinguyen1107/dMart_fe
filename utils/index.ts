@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export * from './modal.utils';
 export * from './auth.utils';
+export * from './ipfs.utils';
 
 export const toastBaseConfig: UseToastOptions = {
   position: 'top',

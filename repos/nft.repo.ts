@@ -1,4 +1,4 @@
-import { NftApi as NftApi } from '../apis';
+import { MintNftInput, NftApi as NftApi } from '../apis';
 import { GetListInput, Optional } from '../core/types';
 import { DB } from '../db';
 import { NFT, NFTMetadata } from '../dtos';
@@ -13,7 +13,7 @@ export class NftRepo {
     return NftApi.fetchNFTMetadata(tokenId);
   }
 
-  // static async mintNft(): Promise<boolean> {
-  //   return NftApi.mintNft();
-  // }
+  static async mintArtNft(payload: MintNftInput): Promise<void> {
+    return NftApi.mintArtNft(payload);
+  }
 }

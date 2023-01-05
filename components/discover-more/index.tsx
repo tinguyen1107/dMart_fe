@@ -21,7 +21,7 @@ import {
   Img,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { NFTcard } from '../nft-card';
+import { NftCard } from '../nft-card';
 
 const nfts = [
   {
@@ -100,12 +100,11 @@ export const DiscoverMoreNFT = (props: any) => {
           display: 'none',
         },
       }}
-    >
-      {nfts.map((card, id) => (
-        <Box minW="300px" key={id}>
-          <NFTcard {...card} />
-        </Box>
-      ))}
-    </HStack>
+    ></HStack>
   );
 };
+// {nfts.map((card, id) => (
+//   <Box minW="300px" key={id}>
+//     <NftCard {...card} />
+//   </Box>
+// ))}

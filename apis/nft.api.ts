@@ -31,6 +31,7 @@ export const NftApi = Object.freeze({
       return {
         ...item,
         tokenId: item.token_id,
+        ownerId: item.owner_id,
         metadata: {
           ...item.metadata,
         },
@@ -47,7 +48,6 @@ export const NftApi = Object.freeze({
         },
       });
 
-      console.log('hhhh', res);
       return res;
     } catch (err) {
       console.log(err);

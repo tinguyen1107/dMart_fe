@@ -7,7 +7,7 @@ export const Button = {
       borderColor: string;
       borderWidth: number;
     }) => ({
-      background: 'gradientPrimary',
+      background: 'var(--gradientPrimary)',
       borderWidth: '0px',
       height: 'fit-content',
       width: 'fit-content',
