@@ -25,7 +25,7 @@ export const StorageDepositModal = () => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Confirm</ModalHeader>
+        <ModalHeader>Add more balance for storage</ModalHeader>
         <ModalCloseButton _focus={{ boxShadow: 'none' }} />
         <ModalBody>
           <Alert
@@ -54,10 +54,12 @@ export const StorageDepositModal = () => {
               isLoading={storageDepositState.isLoading}
               onClick={storageDepositMethods.deposit}
               padding="8px 16px"
+              bg="#000"
             >
               Continue
             </Button>
             <Button
+              bg="#000"
               borderColor="#333"
               variant="secondary"
               size="sm"

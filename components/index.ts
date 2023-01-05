@@ -9,3 +9,6 @@ export * from './avatar';
 export * from './header-account';
 export * from './header-account-title';
 export * from './mint-nft-modal';
+export * from './add-storage-balance-modal';
+export * from './storage-deposit-modal';
+export * from './storage-withdraw-modal';

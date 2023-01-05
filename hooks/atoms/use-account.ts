@@ -1,7 +1,7 @@
 import { useHookstate } from '@hookstate/core';
 import { useCallback } from 'react';
 import { useWalletAccountId } from '../../core/hooks';
-import { AccountRepo } from '../../repos';
+import { AccountRepo, BalanceRepo } from '../../repos';
 import { AccountState } from '../../store';
 
 export const useAccount = () => {
@@ -19,10 +19,18 @@ export const useAccount = () => {
     }
   }, [accountId]);
 
+  const fetchBalance = useCallback(async () => {
+    if (accountId) {
+      const balance = await BalanceRepo.fetchBalance();
+      accountState.balance.set(balance);
+    }
+  }, [accountId]);
+
   return {
     accountState,
     accountMethods: {
       fetchProfile,
+      fetchBalance,
     },
   };
 };

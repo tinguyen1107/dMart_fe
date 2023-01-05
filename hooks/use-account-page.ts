@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { CachePrefixKeys } from '../constants';
 import { useBlockchain, useWalletAccountId } from '../core/hooks';
-import { AccountRepo, NFTRepo } from '../repos';
-import { NFTApi } from '../apis';
+import { AccountRepo, NftRepo } from '../repos';
+import { NftApi } from '../apis';
 import { useHookstate } from '@hookstate/core';
 import { AppState } from '../store';
 
@@ -40,7 +40,7 @@ export const useAccountPage = ({ accountId }: { accountId?: string }) => {
     [CachePrefixKeys.LIST_NFT, accountId],
     ({ pageParam }) => {
       const skip = pageParam?.skip || 0;
-      return NFTRepo.fetchListNFTs(accountId!);
+      return NftRepo.fetchListNFTs(accountId!);
     },
     {
       getNextPageParam: (lastPage, pages) => {

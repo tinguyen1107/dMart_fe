@@ -3,24 +3,14 @@ import {
   Box,
   Flex,
   Text,
-  IconButton,
-  Button,
   Stack,
-  Collapse,
-  Icon,
   Link,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useColorModeValue,
   useBreakpointValue,
-  useDisclosure,
   Center,
   Spinner,
 } from '@chakra-ui/react';
 // import {CloseIcon, MenuIcon} from 'react-icons/fa'
 import { BiMenu, BiX } from 'react-icons/bi';
-import Logo from '../logo';
 import { LoginButton } from '../login-button';
 import { Brand } from '../brand';
 import { useWindowScroll } from 'react-use';

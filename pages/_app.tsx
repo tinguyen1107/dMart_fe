@@ -7,11 +7,17 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import NextNProgress from 'nextjs-progressbar';
 import { useInitialize } from '../hooks';
 import '../styles/global.css';
+import { theme } from '../theme';
 
 // PouchDB
 import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
-import { MintNftModal } from '../components';
+import {
+  AddStorageBalanceModal,
+  MintNftModal,
+  StorageDepositModal,
+  StorageWithdrawModal,
+} from '../components';
 PouchDB.plugin(PouchDBFind);
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -38,7 +44,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider resetCSS={true}>
+      <ChakraProvider theme={theme}>
         <NextNProgress
           showOnShallow={true}
           options={{
@@ -72,6 +78,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         {appState.ready.value && getLayout(<Component {...pageProps} />)}
         {appState.ready.value && (
           <>
+            <AddStorageBalanceModal />
+            <StorageDepositModal />
+            <StorageWithdrawModal />
             <MintNftModal />
           </>
         )}

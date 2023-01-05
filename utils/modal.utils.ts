@@ -1,9 +1,11 @@
 import { ModalStateType } from '../core/types';
 
 export const ModalUtils: {
-  storageDeposit: ModalStateType;
-  sayModal: ModalStateType;
   addStorageBalance: ModalStateType;
+  storageDeposit: ModalStateType;
+  storageWithdraw: ModalStateType;
+
+  sayModal: ModalStateType;
   connectWallet: ModalStateType;
   placeChest: ModalStateType;
   mintNft: ModalStateType;
@@ -20,14 +22,19 @@ export const ModalUtils: {
   contactMe: ModalStateType;
   arStorageDeposit: ModalStateType;
 } = Object.freeze({
-  storageDeposit: {
-    onOpen: () => {},
-    onClose: () => {},
-  },
   addStorageBalance: {
     onOpen: () => {},
     onClose: () => {},
   },
+  storageDeposit: {
+    onOpen: () => {},
+    onClose: () => {},
+  },
+  storageWithdraw: {
+    onOpen: () => {},
+    onClose: () => {},
+  },
+
   sayModal: {
     onOpen: () => {},
     onClose: () => {},

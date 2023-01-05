@@ -1,15 +1,19 @@
-import { NFTApi } from '../apis';
+import { NftApi as NftApi } from '../apis';
 import { GetListInput, Optional } from '../core/types';
 import { DB } from '../db';
 import { NFT, NFTMetadata } from '../dtos';
 
-export class NFTRepo {
+export class NftRepo {
   static async fetchListNFTs(accountId: string): Promise<NFT[]> {
-    return NFTApi.fetchListNFTs(accountId);
+    return NftApi.fetchListNFTs(accountId);
   }
   static async fetchNFTMetadata(
     tokenId: string
   ): Promise<Optional<NFTMetadata>> {
-    return NFTApi.fetchNFTMetadata(tokenId);
+    return NftApi.fetchNFTMetadata(tokenId);
   }
+
+  // static async mintNft(): Promise<boolean> {
+  //   return NftApi.mintNft();
+  // }
 }

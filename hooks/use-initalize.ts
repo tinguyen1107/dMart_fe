@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { StorageKeys } from '../constants';
 import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { DB } from '../db';
-import { AccountRepo, NFTRepo } from '../repos';
+import { AccountRepo, NftRepo } from '../repos';
 import { useAccount, useApp } from './atoms';
 import { getContainer } from '../core';
 import { ModalUtils } from '../utils';
@@ -64,7 +64,7 @@ export const useInitialize = () => {
           // accountState.isAdmin.set(isAdmin);
           await Promise.all([
             accountMethods.fetchProfile(),
-            // accountMethods.fetchBalance(),
+            accountMethods.fetchBalance(),
           ]);
         }
       };
