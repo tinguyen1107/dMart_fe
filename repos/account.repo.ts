@@ -6,7 +6,7 @@ export class AccountRepo {
     return AccountApi.storageDeposit();
   }
   static async storageWithdraw(amount: number): Promise<void> {
-    return AccountApi.storageWidthdraw(amount);
+    return AccountApi.storageWithdraw(amount);
   }
   static async isRegistered(): Promise<boolean> {
     return AccountApi.isRegistered();
