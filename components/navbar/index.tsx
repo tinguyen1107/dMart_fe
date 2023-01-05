@@ -49,8 +49,8 @@ export const NavBar = (props: any) => {
             logoutLoading={walletLoading}
             requestLogout={signOut}
             accountName={userId!}
-            avatarSrc={account?.avatar}
-            displayName={account?.displayName}
+            avatarSrc={account?.accountInfo.avatar}
+            displayName={account?.accountInfo.displayName}
           />
         ) : (
           <LoginButton />
