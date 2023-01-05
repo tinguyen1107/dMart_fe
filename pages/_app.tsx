@@ -15,6 +15,7 @@ import PouchDBFind from 'pouchdb-find';
 import {
   AddStorageBalanceModal,
   MintNftModal,
+  SellNftModal,
   StorageDepositModal,
   StorageWithdrawModal,
 } from '../components';
@@ -82,6 +83,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <StorageDepositModal />
             <StorageWithdrawModal />
             <MintNftModal />
+            <SellNftModal />
           </>
         )}
       </ChakraProvider>

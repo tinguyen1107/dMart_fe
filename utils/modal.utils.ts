@@ -5,10 +5,12 @@ export const ModalUtils: {
   storageDeposit: ModalStateType;
   storageWithdraw: ModalStateType;
 
+  mintNft: ModalStateType;
+  sellNft: ModalStateType;
+
   sayModal: ModalStateType;
   connectWallet: ModalStateType;
   placeChest: ModalStateType;
-  mintNft: ModalStateType;
   composeMessage: ModalStateType;
   createPost: ModalStateType;
   selectGifModal: ModalStateType;
@@ -35,6 +37,15 @@ export const ModalUtils: {
     onClose: () => {},
   },
 
+  mintNft: {
+    onOpen: () => {},
+    onClose: () => {},
+  },
+  sellNft: {
+    onOpen: () => {},
+    onClose: () => {},
+  },
+
   sayModal: {
     onOpen: () => {},
     onClose: () => {},
@@ -44,10 +55,6 @@ export const ModalUtils: {
     onClose: () => {},
   },
   placeChest: {
-    onOpen: () => {},
-    onClose: () => {},
-  },
-  mintNft: {
     onOpen: () => {},
     onClose: () => {},
   },
