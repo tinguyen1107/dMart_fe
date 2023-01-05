@@ -8,12 +8,12 @@ export const useStorageWithdrawModal = () => {
   const { storageWithdrawState, storageWithdrawMethods } = useStorageWithdraw();
 
   useEffect(() => {
-    ModalUtils.storageDeposit.onOpen = onOpen;
-    ModalUtils.storageDeposit.onClose = onClose;
+    ModalUtils.storageWithdraw.onOpen = onOpen;
+    ModalUtils.storageWithdraw.onClose = onClose;
   }, []);
 
   return {
-    storageDepositModalState: { isOpen, storageWithdrawState },
-    storageDepositModalMethods: { onOpen, onClose, storageWithdrawMethods },
+    storageWithdrawModalState: { isOpen, storageWithdrawState },
+    storageWithdrawModalMethods: { onOpen, onClose, storageWithdrawMethods },
   };
 };

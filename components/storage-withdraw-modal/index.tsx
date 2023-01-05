@@ -12,14 +12,34 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Input,
+  Box,
+  Text,
 } from '@chakra-ui/react';
-import { useStorageDepositModal } from '../../hooks';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { useMemo } from 'react';
+import { useAccount } from '../../hooks';
+import { useStorageWithdrawModal } from '../../hooks/use-storage-withdraw-modal';
 
 export const StorageWithdrawModal = () => {
   const {
-    storageDepositModalState: { isOpen, storageDepositState },
-    storageDepositModalMethods: { onClose, storageDepositMethods },
-  } = useStorageDepositModal();
+    storageWithdrawModalState: { isOpen, storageWithdrawState },
+    storageWithdrawModalMethods: { onClose, storageWithdrawMethods },
+  } = useStorageWithdrawModal();
+
+  const { accountState } = useAccount();
+
+  const balanceAvailable = useMemo(
+    () => formatNearAmount(accountState.balance.get()?.available ?? '0', 2),
+    [accountState.balance.get()]
+  );
+
+  // const isOverAmount = useMemo(
+  //   () =>
+  //     parseFloat(storageWithdrawState.amountInputRef.current?.value ?? 0) >
+  //     parseFloat(balanceAvailable),
+  //   [storageWithdrawState.amountInputRef.current]
+  // );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -28,31 +48,22 @@ export const StorageWithdrawModal = () => {
         <ModalHeader>Withdraw</ModalHeader>
         <ModalCloseButton _focus={{ boxShadow: 'none' }} />
         <ModalBody>
-          <Alert
-            status="info"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
-            height="200px"
-            borderRadius="8px"
-            bg="transparent"
-          >
-            <AlertIcon boxSize="40px" mr={0} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              Add storage balance to be able to interact with this dapp
-            </AlertTitle>
-            <AlertDescription maxWidth="sm" mb="15px"></AlertDescription>
-          </Alert>
+          <Box>
+            <Input
+              type="number"
+              placeholder="Amount"
+              ref={storageWithdrawState.amountInputRef}
+            />
+            <Text color="#444">Max: {balanceAvailable} NEAR</Text>
+          </Box>
         </ModalBody>
         <ModalFooter>
           <HStack>
             <Button
               variant="primary"
               size="sm"
-              isLoading={storageDepositState.isLoading}
-              onClick={storageDepositMethods.deposit}
+              isLoading={storageWithdrawState.isLoading}
+              onClick={storageWithdrawMethods.withdraw}
               padding="8px 16px"
               bg="#000"
             >

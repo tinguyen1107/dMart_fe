@@ -1,26 +1,31 @@
 import { BN } from 'bn.js';
 import { parseNearAmount } from 'near-api-js/lib/utils/format';
-import { NFT_CONTRACT_NAME } from '../constants';
 import { getContainer } from '../core';
 import { Optional } from '../core/types';
 import { NFTMetadata, NFT } from '../dtos';
 
 enum ContractMethods {
   mint_nft = 'mint_nft',
+  mint_art_nft = 'mint_art_nft',
   tokens_metadata_of_owner = 'tokens_metadata_of_owner',
   token_metadata = 'token_metadata',
 }
 
-export const NFTApi = Object.freeze({
+export type MintNftInput = {
+  title: string;
+  description: string;
+  media: string;
+  extra: string;
+};
+
+export const NftApi = Object.freeze({
   async fetchListNFTs(accountId: string): Promise<NFT[]> {
     const res = await getContainer().bcConnector.callViewMethod({
-      contractId: NFT_CONTRACT_NAME,
       methodName: ContractMethods.tokens_metadata_of_owner,
       args: {
         owner_id: accountId,
       },
     });
-    console.log('hhhh', res);
 
     return res.map((item: any) => {
       return {
@@ -28,7 +33,6 @@ export const NFTApi = Object.freeze({
         tokenId: item.token_id,
         metadata: {
           ...item.metadata,
-          media: item.metadata.media.replace('gateway.pinata.cloud', ''),
         },
       };
     });
@@ -37,7 +41,6 @@ export const NFTApi = Object.freeze({
   async fetchNFTMetadata(tokenId: string): Promise<Optional<NFTMetadata>> {
     try {
       const res = await getContainer().bcConnector.callViewMethod({
-        contractId: NFT_CONTRACT_NAME,
         methodName: ContractMethods.token_metadata,
         args: {
           token_id: tokenId,
@@ -50,15 +53,12 @@ export const NFTApi = Object.freeze({
       console.log(err);
     }
   },
-  async mintNft(title: string, description: string): Promise<void> {
+  async mintArtNft(payload: MintNftInput): Promise<void> {
     await getContainer().bcConnector.callChangeMethod({
-      methodName: ContractMethods.mint_nft,
+      methodName: ContractMethods.mint_art_nft,
       args: {
-        account_id: getContainer().bcConnector.wallet.getAccountId(),
-        title,
-        description,
-        media: String,
-        nft_type: String,
+        receiver_id: getContainer().bcConnector.wallet.getAccountId(),
+        metadata: payload,
       },
       attachedDeposit: new BN(parseNearAmount('0.2') ?? 0),
     });

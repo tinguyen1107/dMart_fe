@@ -135,12 +135,12 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
             <Text fontWeight="800" fontSize="16px" color="var(--textHeader)">
               Mint NFT
             </Text>
-            <Text mt="4px" fontWeight="400" fontSize="12px" color="textPrimary">
-              Invite your friend by placing the invitation NFT somewhere close
-              to them, with a password only they know. Please do not invite
-              yourself, you will get banned and be letting down the person who
-              invited you.
-            </Text>
+            <Text
+              mt="4px"
+              fontWeight="400"
+              fontSize="12px"
+              color="textPrimary"
+            ></Text>
           </ModalHeader>
           <ModalCloseButton
             color="textSloganHomepage"
@@ -153,7 +153,7 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                   <FormControl>
                     <Box w="100%">
                       <HStack justifyContent="space-between">
-                        <Text pl="4px">Name (optional)</Text>
+                        <Text pl="4px">Title</Text>
                         <Text
                           fontWeight="400"
                           fontSize="11px"

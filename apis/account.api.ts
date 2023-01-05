@@ -23,9 +23,11 @@ export const AccountApi = Object.freeze({
     });
   },
   async storageWithdraw(amount: number): Promise<void> {
+    console.log('payload ', amount, parseNearAmount(amount.toString()));
     await getContainer().bcConnector.callChangeMethod({
       methodName: ContractMethods.storage_withdraw,
-      args: { amount: new BN(parseNearAmount(amount.toString()) ?? 0) },
+      args: { amount: parseNearAmount(amount.toString()) ?? '0' },
+      attachedDeposit: new BN(1),
     });
   },
   async isRegistered(): Promise<boolean> {
