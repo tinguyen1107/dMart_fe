@@ -15,7 +15,7 @@ export type NFTMetadata = {
   updated_at: Nullable<Date>;
 };
 
-export type NFT = {
+export type NftDto = {
   metadata: NFTMetadata;
   tokenId: string;
   ownerId: string;
