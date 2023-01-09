@@ -16,27 +16,22 @@ export const OrderApi = Object.freeze({
       args: {},
     });
 
-    console.log(
-      'res',
-      res.map((item: any) => mapToOrder(item))
-    );
-
-    return res.map((item: any) => mapToOrder(item));
+    return res
+      .map((item: any) => mapToOrder(item))
+      .filter((item: OrderDto) => !item.isSold);
   },
 });
 
 const mapToOrder = (item: any): OrderDto => {
   return {
     orderId: item.order_id,
-    order: {
-      ownerId: item.order.owner_id,
-      nftId: item.order.nft_id,
-      price: item.order.price,
-      createAt: item.order.create_at,
-      isSold: item.order.is_sold,
-    },
-    nft: {
-      ...item.nft,
+    ownerId: item.owner_id,
+    nftId: item.nft_id,
+    price: item.price,
+    createAt: item.create_at,
+    isSold: item.is_sold,
+    metadata: {
+      ...item.metadata,
     },
   };
 };

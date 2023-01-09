@@ -1,7 +1,7 @@
 import { MintNftInput, NftApi as NftApi, SellNftInput } from '../apis';
 import { GetListInput, Optional } from '../core/types';
 import { DB } from '../db';
-import { NftDto, NFTMetadata } from '../dtos';
+import { NftDto, NFTMetadata, OrderDto } from '../dtos';
 
 export class NftRepo {
   static async fetchListNFTs(accountId: string): Promise<NftDto[]> {
@@ -19,5 +19,9 @@ export class NftRepo {
 
   static async sellNft(payload: SellNftInput): Promise<void> {
     return NftApi.sellNft(payload);
+  }
+
+  static async buyNft(payload: OrderDto): Promise<void> {
+    return NftApi.buyNft(payload);
   }
 }

@@ -9,6 +9,7 @@ enum ContractMethods {
   mint_art_nft = 'mint_art_nft',
   sell_nft = 'sell_nft',
   buy_nft = 'buy_nft',
+  nft_transfer = 'nft_transfer',
   tokens_metadata_of_owner = 'tokens_metadata_of_owner',
   token_metadata = 'token_metadata',
 }
@@ -70,6 +71,7 @@ export const NftApi = Object.freeze({
         nft_id: payload.nftId,
         price: parseNearAmount(payload.price),
       },
+      attachedDeposit: new BN(1),
       // attachedDeposit: new BN(parseNearAmount('0.2') ?? 0),
     });
   },
@@ -80,9 +82,7 @@ export const NftApi = Object.freeze({
       args: {
         order_id: payload.orderId,
       },
-      attachedDeposit: new BN(
-        parseNearAmount(payload.order.price.toString()) ?? 0
-      ),
+      attachedDeposit: new BN(payload.price.toString() ?? 0),
     });
   },
 });
