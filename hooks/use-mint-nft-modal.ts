@@ -43,7 +43,7 @@ export const useMintNft = () => {
             await NftRepo.mintArtNft(data);
 
             queryClient.invalidateQueries('get_chests_by_account_id');
-            ModalUtils.placeChest.onClose();
+            ModalUtils.mintNft.onClose();
             mintNftForm.reset();
 
             toast({

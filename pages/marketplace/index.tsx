@@ -15,9 +15,16 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import { NavBar, NftCard, HeadLine, TrendingCard } from '../../components';
+import {
+  NavBar,
+  NftCard,
+  HeadLine,
+  TrendingCard,
+  OrderCard,
+} from '../../components';
+import { useMarketplacePage } from '../../hooks';
 
-const marketplace = () => {
+const Marketplace = () => {
   const nfts = [
     {
       id: 1,
@@ -84,6 +91,12 @@ const marketplace = () => {
   //     <NftCard {...card} />
   //   </GridItem>
   // ))}
+  //
+
+  const {
+    marketplacePageState: { accountQuery, listOrdersQuery },
+  } = useMarketplacePage();
+
   return (
     <>
       <Header>
@@ -105,11 +118,14 @@ const marketplace = () => {
             </TabList>
             <TabPanels bg="#3B3B3B">
               <TabPanel>
-                <SimpleGrid
-                  columns={[1, 2, 3]}
-                  gap="30px"
-                  mt="60px"
-                ></SimpleGrid>
+                <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px">
+                  {!!listOrdersQuery.data &&
+                    listOrdersQuery.data.map((order, id) => (
+                      <Box key={id}>
+                        <OrderCard data={order} />
+                      </Box>
+                    ))}
+                </SimpleGrid>
               </TabPanel>
               <TabPanel>
                 <Grid
@@ -133,4 +149,4 @@ const marketplace = () => {
   );
 };
 
-export default marketplace;
+export default Marketplace;

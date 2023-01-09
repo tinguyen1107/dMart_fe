@@ -5,6 +5,7 @@ export * from './banner';
 export * from './headline';
 export * from './trending-card';
 export * from './nft-card';
+export * from './order-card';
 export * from './avatar';
 export * from './header-account';
 export * from './header-account-title';

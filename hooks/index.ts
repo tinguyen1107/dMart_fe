@@ -6,3 +6,4 @@ export * from './use-storage-deposit';
 export * from './use-account-page';
 export * from './use-mint-nft-modal';
 export * from './use-sell-nft-modal';
+export * from './use-marketplace-page';

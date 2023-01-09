@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AspectRatio, Button, HStack, VStack } from '@chakra-ui/react';
 import { Image, Stack, Heading, Text, Box } from '@chakra-ui/react';
-import { NftDto } from '../../dtos';
+import { NftDto, OrderDto } from '../../dtos';
 import { Avatar } from '../avatar';
 import { useAccountPage } from '../../hooks';
 import { AuthUtils, ModalUtils } from '../../utils';
+import { NftRepo } from '../../repos';
+import { formatNearAmount } from 'near-api-js/lib/utils/format';
+import { useOrderCard } from '../../hooks/use-order-card';
 
-export const NftCard = ({ data }: { data: NftDto }) => {
+export const OrderCard = ({ data }: { data: OrderDto }) => {
   const {
-    accountPageState: { accountQuery },
-  } = useAccountPage({ accountId: data.ownerId });
-
-  const { data: account } = accountQuery;
+    orderCardState: { account },
+    orderCardMethods: { handleBtnBuyClick },
+  } = useOrderCard(data);
 
   return (
     <Box maxW="420px" bg="var(--bgPrimary)" borderRadius="12px" color="white">
@@ -35,51 +37,28 @@ export const NftCard = ({ data }: { data: NftDto }) => {
                 {account?.accountInfo.displayName}
               </Text>
               <Text m="0" px={2} fontSize={{ md: '10px', lg: '12px' }}>
-                @{account?.id}
+                @{data.ownerId}
               </Text>
             </Box>
           </HStack>
         </VStack>
-
-        <HStack w="100%" justifyContent="end">
-          <Button
-            variant="primary"
-            py="5px"
-            onClick={() => {
-              AuthUtils.authCheckAndExec(() => {
-                ModalUtils.sellNft.onOpen(data);
-              });
-            }}
-          >
-            Sell
-          </Button>
-        </HStack>
-        {/* 
-        <Flex my={'16px'}>
-          <Image boxSize="26px" src={props.ava} borderRadius="full" />
-          <Text px={2} fontSize={{ md: '12', lg: '16' }}>
-            {data.metadata.description}
-          </Text>
-        </Flex>
-        <Flex w="full">
-          <Stack>
+        <HStack w="100%" justifyContent="space-between">
+          <HStack>
             <Text color={'gray'} fontSize={{ md: '12', lg: '14' }}>
               Price
             </Text>
-            <Text color={'white'} fontSize={{ md: '12', lg: '18' }}>
-              {props.price} ETH
+            <Text
+              color="white"
+              fontWeight="700"
+              fontSize={{ md: '16', lg: '18' }}
+            >
+              {formatNearAmount(data.price) + ' Ⓝ'}
             </Text>
-          </Stack>
-          <Spacer />
-          <Stack>
-            <Text color={'gray'} fontSize={{ md: '12', lg: '14' }}>
-              Highest Bid
-            </Text>
-            <Text color={'white'} fontSize={{ md: '12', lg: '18' }}>
-              {props.hbid} ETH
-            </Text>
-          </Stack>
-        </Flex> */}
+          </HStack>
+          <Button variant="primary" py="5px" onClick={handleBtnBuyClick}>
+            Buy
+          </Button>
+        </HStack>
       </VStack>
     </Box>
   );

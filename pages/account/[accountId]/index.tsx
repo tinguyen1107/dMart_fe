@@ -31,7 +31,7 @@ import { TrendingCard, NftCard } from '../../../components';
 import { useAccountPage } from '../../../hooks';
 import { useRouter } from 'next/router';
 import { Optional } from '../../../core/types';
-import { NFT } from '../../../dtos';
+import { NftDto } from '../../../dtos';
 import { MainLayout } from '../../../layouts';
 
 const AccountPage = () => {
@@ -91,7 +91,7 @@ const AccountPage = () => {
   const listNft = React.useMemo(() => {
     if (nftQuery.data?.pages.length) {
       let data = nftQuery.data.pages.reduce(
-        (a: NFT[], b: NFT[]) => [...a, ...b],
+        (a: NftDto[], b: NftDto[]) => [...a, ...b],
         []
       );
       // .map((val) => {
