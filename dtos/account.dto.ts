@@ -1,3 +1,5 @@
+import { NftDto } from './nft.dto';
+
 export type AccountInfoDto = {
   avatar?: string;
   thumbnail?: string;
@@ -18,6 +20,7 @@ export type AccountInfoDto = {
 export type AccountDto = {
   id: string;
   accountInfo: AccountInfoDto;
+  favouriteNfts: NftDto[];
   numFollowers: number;
   numFollowing: number;
   numNfts: number;

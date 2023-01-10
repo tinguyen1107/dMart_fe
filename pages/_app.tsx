@@ -32,7 +32,7 @@ type AppPropsWithLayout = AppProps & {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     },
   },
 });

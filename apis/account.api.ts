@@ -3,7 +3,8 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { getContainer } from '../core';
 import { TransactionAction } from '../core/types';
 import { parseToUsername } from '../core/utils';
-import { AccountDto, AccountInfoDto } from '../dtos';
+import { AccountDto, AccountInfoDto, NftDto } from '../dtos';
+import { mapToNftDto } from './nft.api';
 
 enum ContractMethods {
   storage_deposit = 'storage_deposit',
@@ -14,6 +15,10 @@ enum ContractMethods {
   is_admin = 'is_admin',
   get_account = 'get_account',
   get_accounts = 'get_accounts',
+
+  get_bookmarks = 'get_bookmarks',
+  add_bookmark = 'add_bookmark',
+  remove_bookmark = 'remove_bookmark',
 }
 
 export const AccountApi = Object.freeze({
@@ -92,6 +97,25 @@ export const AccountApi = Object.freeze({
       args,
     });
   },
+  async getBookmarks(): Promise<NftDto[]> {
+    const res = await getContainer().bcConnector.callViewMethod({
+      methodName: ContractMethods.get_bookmarks,
+      args: { account_id: getContainer().bcConnector.wallet.getAccountId() },
+    });
+    return res.map((val: any) => mapToNftDto(val));
+  },
+  async addBookmark(nftId: string): Promise<void> {
+    await getContainer().bcConnector.callChangeMethod({
+      methodName: ContractMethods.add_bookmark,
+      args: { nft_id: nftId },
+    });
+  },
+  async removeBookmark(nftId: string): Promise<void> {
+    await getContainer().bcConnector.callChangeMethod({
+      methodName: ContractMethods.remove_bookmark,
+      args: { nft_id: nftId },
+    });
+  },
 });
 
 const mapToAccounts = (raws: any[]): AccountDto[] => {
@@ -110,6 +134,7 @@ const mapToRawAccount = (item: any): AccountDto => {
   return {
     id: item[0],
     accountInfo,
+    favouriteNfts: [],
     numFollowers: item[1]?.num_followers,
     numFollowing: item[1]?.num_following,
     numNfts: item[1]?.num_nfts,
@@ -126,6 +151,7 @@ const mapToAccount = (item: any): AccountDto => {
   return {
     id: item.account_id,
     accountInfo,
+    favouriteNfts: item?.favourite_nfts.map((val: any) => mapToNftDto(val)),
     numFollowers: item?.num_followers,
     numFollowing: item?.num_following,
     numNfts: item?.num_nfts,

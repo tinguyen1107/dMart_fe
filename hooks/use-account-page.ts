@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { CachePrefixKeys } from '../constants';
 import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { AccountRepo, NftRepo } from '../repos';
-import { NftApi } from '../apis';
+import { AccountApi, NftApi } from '../apis';
 import { useHookstate } from '@hookstate/core';
 import { AppState } from '../store';
 import { OrderRepo } from '../repos/order.repo';
@@ -37,6 +37,12 @@ export const useAccountPage = ({ accountId }: { accountId?: string }) => {
   // },
   //   sort: buildSortQuery(postFilter),
   // }
+
+  const listFavouriteQuery = useQuery(
+    [CachePrefixKeys.LIST_FAVOURITE_NFTS],
+    () => AccountRepo.getBookmarks(),
+    { enabled: appState.value.ready && !!accountId }
+  );
   const nftQuery = useQuery(
     [CachePrefixKeys.LIST_NFT, accountId],
     () => NftRepo.fetchListNFTs(accountId!),
@@ -52,6 +58,7 @@ export const useAccountPage = ({ accountId }: { accountId?: string }) => {
   return {
     accountPageState: {
       accountQuery,
+      listFavouriteQuery,
       nftQuery,
       listOrdersQuery,
     },

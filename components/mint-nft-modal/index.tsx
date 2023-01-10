@@ -349,10 +349,11 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                 isDisabled={
                   indicatorDescriptionCharacters.remain < 0 ||
                   indicatorNameCharacters.remain < 0 ||
-                  mintNftForm.getValues('title') == '' ||
-                  mintNftForm.getValues('description') == '' ||
-                  mintNftForm.getValues('media') == '' ||
-                  mintNftForm.getValues('extra') == ''
+                  !mintNftForm.watch('title') ||
+                  !mintNftForm.watch('description') ||
+                  !mintNftForm.watch('media') ||
+                  !mintNftForm.watch('extra') ||
+                  uploadFileMutation.isLoading
                 }
               >
                 Mint
