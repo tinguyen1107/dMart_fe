@@ -8,6 +8,7 @@ export * from './nft-card';
 export * from './order-card';
 export * from './avatar';
 export * from './header-account';
+export * from './accounts-list';
 export * from './header-account-title';
 export * from './mint-nft-modal';
 export * from './sell-nft-modal';

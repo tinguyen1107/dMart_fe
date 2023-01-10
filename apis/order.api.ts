@@ -7,6 +7,7 @@ import { mapToNftDto } from './nft.api';
 
 enum ContractMethods {
   get_orders = 'get_orders',
+  get_account_orders = 'get_account_orders',
 }
 
 export const OrderApi = Object.freeze({
@@ -14,6 +15,18 @@ export const OrderApi = Object.freeze({
     const res = await getContainer().bcConnector.callViewMethod({
       methodName: ContractMethods.get_orders,
       args: {},
+    });
+
+    return res
+      .map((item: any) => mapToOrder(item))
+      .filter((item: OrderDto) => !item.isSold);
+  },
+  async fetchListAccountOrders(accountId: string): Promise<OrderDto[]> {
+    const res = await getContainer().bcConnector.callViewMethod({
+      methodName: ContractMethods.get_account_orders,
+      args: {
+        account_id: getContainer().bcConnector.wallet.getAccountId(),
+      },
     });
 
     return res

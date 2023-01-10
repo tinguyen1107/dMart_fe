@@ -1,7 +1,7 @@
 :root {
   --gradientPrimary: linear-gradient(to right, #0250c5 0%, #d43f8d 100%);
   --bgPrimary: #2b2b2b;
-  --bgSecondary: #323340;
+  --bgSecondary: #353535;
 
   --textHeader: #fff;
   --textPrimary: #ddd;

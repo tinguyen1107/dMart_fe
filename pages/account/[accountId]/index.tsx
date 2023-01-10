@@ -15,9 +15,9 @@ import {
   Heading,
   Button,
   SimpleGrid,
-  Grid,
   GridItem,
   AspectRatio,
+  Center,
 } from '@chakra-ui/react';
 import {
   FaPlus,
@@ -27,11 +27,10 @@ import {
   FaTwitter,
   FaInstagram,
 } from 'react-icons/fa';
-import { TrendingCard, NftCard } from '../../../components';
+import { NftCard, OrderCard } from '../../../components';
 import { useAccountPage } from '../../../hooks';
 import { useRouter } from 'next/router';
 import { Optional } from '../../../core/types';
-import { NftDto } from '../../../dtos';
 import { MainLayout } from '../../../layouts';
 
 const AccountPage = () => {
@@ -47,93 +46,28 @@ const AccountPage = () => {
       'http://www.playtoearn.online/wp-content/uploads/2021/10/Bored-Ape-Yacht-Club-NFT-avatar.png',
     Bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
     Links: ['', '', '', ''],
-    Created: [
-      {
-        id: 1,
-        imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-        title: 'distant galaxy',
-        artist: 'Moon Dancer',
-        price: '1,63',
-        hbid: '0.33',
-        ava: 'https://bit.ly/dan-abramov',
-      },
-    ],
-    Owned: [
-      {
-        id: 1,
-        imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-        title: 'distant galaxy',
-        artist: 'Moon Dancer',
-        price: '1,63',
-        hbid: '0.33',
-        ava: 'https://bit.ly/dan-abramov',
-      },
-    ],
-    Collection: [
-      {
-        label: '1',
-        top: 'https://i.ibb.co/3NKh8HX/top.png',
-        left: 'https://i.ibb.co/3NKh8HX/top.png',
-        mid: 'https://i.ibb.co/3NKh8HX/top.png',
-        right: 'https://i.ibb.co/3NKh8HX/top.png',
-      },
-    ],
   };
   const router = useRouter();
 
   const accountId = router.query?.accountId as Optional<string>;
   const {
-    accountPageState: { accountQuery, nftQuery },
+    accountPageState: { accountQuery, listOrdersQuery, nftQuery },
   } = useAccountPage({ accountId });
 
   const { data: account } = accountQuery;
 
   const listNft = React.useMemo(() => {
-    if (nftQuery.data?.pages.length) {
-      let data = nftQuery.data.pages.reduce(
-        (a: NftDto[], b: NftDto[]) => [...a, ...b],
-        []
-      );
-      // .map((val) => {
-      //   if (postState.value.filter.type != 'all')
-      //     return { ...val, showParent: false };
-      //
-      //   let showParent = false;
-      //   if (originRep.current.includes(val.id)) return;
-      //   if (val.postType.type == 'Reply') {
-      //     showParent = !originRep.current.includes(val.postType.post_id!);
-      //     if (showParent) originRep.current.push(val.postType.post_id!);
-      //   }
-      //   return { ...val, showParent };
-      // });
-      console.log('List nft:', data);
-      return data;
-    } else return undefined;
-  }, [nftQuery.data?.pages]);
+    console.log('List nft:', nftQuery.data);
+    if (nftQuery.data?.length) {
+      return nftQuery.data;
+    } else return [];
+  }, [nftQuery.data]);
+
   return (
     <>
       <Header>
         <title>DMart</title>
       </Header>
-      {/* <Box pos="absolute">
-        <Box w="full" h="auto" pb="10px" pos="relative">
-          <Box
-            pos="absolute"
-            h="100%"
-            w="100%"
-            bg="linear-gradient(to top, var(--bgPrimary) 25%, transparent 60%)"
-          />
-          <Image
-            src={
-              account?.accountInfo.thumbnail ??
-              'https://img.freepik.com/free-vector/night-ocean-landscape-full-moon-stars-shine_107791-7397.jpg?w=2000'
-            }
-            w="full"
-            h="400px"
-            objectFit="cover"
-          />
-        </Box>
-      </Box> */}
       <MainLayout>
         <Box h="100px" />
         <Box bg="var(--bgPrimary)" borderRadius="12px">
@@ -217,60 +151,74 @@ const AccountPage = () => {
           </Box>
         </Box>
 
-        <Tabs isFitted variant="unstyled" mt="20px" minH="600px">
-          <TabList color={'white'} as="b">
-            <Tab
-              _selected={{
-                color: '#fe8668',
-                borderBottomWidth: '2px',
-                borderBottomColor: '#fe8668',
-              }}
+        <Box bg="var(--bgSecondary)" borderRadius="12px">
+          <Tabs isFitted variant="unstyled" mt="20px" minH="600px">
+            <TabList
+              color={'white'}
+              as="b"
+              h="60px"
+              bg="var(--bgPrimary)"
+              borderTopRadius="12px"
             >
-              <Text> My Bag </Text>
-            </Tab>
-            <Tab
-              _selected={{
-                color: '#fe8668',
-                borderBottomWidth: '2px',
-                borderBottomColor: '#fe8668',
-              }}
-            >
-              <Text> Selling </Text>
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px" px={'10%'}>
-                {!!listNft &&
-                  listNft.map((nft, id) => (
-                    <GridItem key={id}>
-                      <NftCard data={nft} />
-                    </GridItem>
-                  ))}
-              </SimpleGrid>
-            </TabPanel>
-            <TabPanel>
-              <Grid
-                templateColumns="repeat(3, 1fr)"
-                gap={{ sm: '5', md: '5', lg: '30' }}
-                mt="60px"
-                px={'10%'}
+              <Tab
+                _selected={{
+                  color: '#fe8668',
+                  borderBottomWidth: '2px',
+                  borderBottomColor: '#fe8668',
+                }}
               >
-                {profile.Collection.map((child) => (
-                  <GridItem
-                    key={child.label}
-                    w="auto"
-                    h="auto"
-                    bg="#2B2B2B"
-                    borderRadius="3xl"
-                  >
-                    <TrendingCard {...child} />
-                  </GridItem>
-                ))}
-              </Grid>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+                <Text>{`Bag (${listNft.length})`}</Text>
+              </Tab>
+              <Tab
+                _selected={{
+                  color: '#fe8668',
+                  borderBottomWidth: '2px',
+                  borderBottomColor: '#fe8668',
+                }}
+              >
+                <Text>{`Selling (${listOrdersQuery.data?.length ?? 0})`}</Text>
+                <Text></Text>
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                {listNft.length == 0 ? (
+                  <Center h="240px">
+                    <Text fontSize="xl" fontWeight="600" color="#fff5">
+                      Empty
+                    </Text>
+                  </Center>
+                ) : (
+                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
+                    {listNft.map((nft, id) => (
+                      <GridItem key={id}>
+                        <NftCard data={nft} />
+                      </GridItem>
+                    ))}
+                  </SimpleGrid>
+                )}
+              </TabPanel>
+              <TabPanel>
+                {listOrdersQuery.data?.length == 0 ? (
+                  <Center h="240px">
+                    <Text fontSize="xl" fontWeight="600" color="#fff5">
+                      Empty
+                    </Text>
+                  </Center>
+                ) : (
+                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
+                    {!!listOrdersQuery.data &&
+                      listOrdersQuery.data.map((order, id) => (
+                        <Box key={id}>
+                          <OrderCard data={order} />
+                        </Box>
+                      ))}
+                  </SimpleGrid>
+                )}
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
       </MainLayout>
     </>
   );

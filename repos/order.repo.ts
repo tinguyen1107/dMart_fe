@@ -8,4 +8,7 @@ export class OrderRepo {
   static async fetchListOrders(): Promise<OrderDto[]> {
     return OrderApi.fetchListOrders();
   }
+  static async fetchListAccountOrders(accountId: string): Promise<OrderDto[]> {
+    return OrderApi.fetchListAccountOrders(accountId);
+  }
 }

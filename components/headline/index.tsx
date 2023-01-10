@@ -9,8 +9,15 @@ import {
 import { FaSearch } from 'react-icons/fa';
 export const HeadLine = () => {
   return (
-    <Box p="50px" bg="#2B2B2B" paddingTop="100px" color="white" mt="auto">
-      <Box px="60px" py="8px">
+    <Box
+      p={{ base: '20px', md: '50px' }}
+      bg="var(--bgPrimary)"
+      paddingTop="100px"
+      color="white"
+      mt="auto"
+      borderRadius="12px"
+    >
+      <Box>
         <Text fontSize="4xl" as="b">
           Marketplace
         </Text>

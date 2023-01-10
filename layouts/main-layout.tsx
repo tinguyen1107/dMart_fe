@@ -6,7 +6,13 @@ import { MAX_WIDTH_CONTENT } from '../constants';
 export function MainLayout({ children }: PropsWithChildren) {
   return (
     <>
-      <Box as="main" minH="calc(100vh)" overflowX="clip" pos="relative">
+      <Box
+        as="main"
+        minH="calc(100vh)"
+        overflowX="clip"
+        pos="relative"
+        pb="100px"
+      >
         <NavBar />
         <Box
           bg="var(--bgPrimary)"
