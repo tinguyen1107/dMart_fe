@@ -23,4 +23,7 @@ export class AccountRepo {
   static async fetchAccount(accountId: string): Promise<AccountDto> {
     return AccountApi.fetchAccount(accountId);
   }
+  static async fetchAccounts(): Promise<AccountDto[]> {
+    return AccountApi.fetchAccounts();
+  }
 }

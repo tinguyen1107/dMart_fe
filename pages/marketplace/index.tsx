@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Header from 'next/head';
 import { MainLayout } from '../../layouts';
 import {
@@ -14,6 +14,10 @@ import {
   GridItem,
   SimpleGrid,
   Stack,
+  Center,
+  Divider,
+  HStack,
+  VStack,
 } from '@chakra-ui/react';
 import {
   NavBar,
@@ -21,8 +25,11 @@ import {
   HeadLine,
   TrendingCard,
   OrderCard,
+  Avatar,
+  AccountsList,
 } from '../../components';
-import { useMarketplacePage } from '../../hooks';
+import { useAccountList, useMarketplacePage } from '../../hooks';
+import { useRouter } from 'next/router';
 
 const Marketplace = () => {
   const nfts = [
@@ -86,16 +93,20 @@ const Marketplace = () => {
       right: 'https://i.ibb.co/3NKh8HX/top.png',
     },
   ];
-  // {nfts.map((card) => (
-  //   <GridItem key={card.id}>
-  //     <NftCard {...card} />
-  //   </GridItem>
-  // ))}
-  //
 
   const {
     marketplacePageState: { accountQuery, listOrdersQuery },
   } = useMarketplacePage();
+  const {
+    accountListState: { listAccountsQuery },
+  } = useAccountList();
+  const router = useRouter();
+
+  const listAccounts = useMemo(() => {
+    if (listAccountsQuery.data?.length)
+      return listAccountsQuery.data.filter((account) => account.numNfts != 0);
+    else return [];
+  }, [listAccountsQuery.data]);
 
   return (
     <>
@@ -103,45 +114,97 @@ const Marketplace = () => {
         <title>DMart</title>
       </Header>
       <MainLayout>
-        <Stack spacing="0">
+        <Box h="100px" />
+        <Stack spacing="15px" color="#fff">
           <HeadLine />
-          <Tabs isFitted variant="unstyled">
-            <TabList color={'gray'} bg="#2B2B2B" as="b">
-              <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-                <Text> NFTs </Text>
-                <Badge mx={4}>{nfts.length}</Badge>
-              </Tab>
-              <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-                <Text> Collections </Text>
-                <Badge mx={4}>{collections.length}</Badge>
-              </Tab>
-            </TabList>
-            <TabPanels bg="#3B3B3B">
-              <TabPanel>
-                <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px">
-                  {!!listOrdersQuery.data &&
-                    listOrdersQuery.data.map((order, id) => (
-                      <Box key={id}>
-                        <OrderCard data={order} />
-                      </Box>
-                    ))}
-                </SimpleGrid>
-              </TabPanel>
-              <TabPanel>
-                <Grid
-                  templateColumns="repeat(3, 1fr)"
-                  gap={{ sm: '5', md: '5', lg: '30' }}
-                  mt="60px"
-                >
-                  {collections.map((child) => (
-                    <GridItem key={child.label}>
-                      <TrendingCard {...child} />
-                    </GridItem>
-                  ))}
-                </Grid>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <Box bg="var(--bgPrimary)" borderRadius="12px">
+            <Tabs isFitted variant="unstyled">
+              <TabList color={'gray'} as="b" h="80px">
+                <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
+                  <Text> NFTs </Text>
+                  <Badge mx={4}>{listOrdersQuery.data?.length ?? 0}</Badge>
+                </Tab>
+                <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
+                  <Text> Creators </Text>
+                  <Badge mx={4}>{listAccounts.length}</Badge>
+                </Tab>
+              </TabList>
+              <Divider />
+              <TabPanels>
+                <TabPanel>
+                  {listOrdersQuery.data?.length == 0 ? (
+                    <Center h="240px">
+                      <Text fontSize="xl" fontWeight="600" color="#fff5">
+                        Empty
+                      </Text>
+                    </Center>
+                  ) : (
+                    <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px">
+                      {!!listOrdersQuery.data &&
+                        listOrdersQuery.data.map((order, id) => (
+                          <Box key={id}>
+                            <OrderCard data={order} />
+                          </Box>
+                        ))}
+                    </SimpleGrid>
+                  )}
+                </TabPanel>
+                <TabPanel>
+                  {listAccountsQuery.data?.length == 0 ? (
+                    <Center h="240px">
+                      <Text fontSize="xl" fontWeight="600" color="#fff5">
+                        Empty
+                      </Text>
+                    </Center>
+                  ) : (
+                    <SimpleGrid columns={[2, 4, 6]} gap="30px" mt="40px">
+                      {!!listAccountsQuery.data &&
+                        listAccounts.map((account, id) => (
+                          <Center key={id}>
+                            <VStack
+                              textAlign="center"
+                              w="120px"
+                              _hover={{ bg: '#fff2' }}
+                              p="15px 6px"
+                              borderRadius="10px"
+                              cursor="pointer"
+                              onClick={() =>
+                                router.push(`/account/${account.id}`)
+                              }
+                            >
+                              <Box w="45px">
+                                <Avatar
+                                  accountId={account.id}
+                                  url={account.accountInfo.avatar}
+                                />
+                              </Box>
+                              <VStack spacing="0" w="100%">
+                                <Text
+                                  fontSize="14px"
+                                  fontWeight="800"
+                                  w="100%"
+                                  noOfLines={1}
+                                >
+                                  {account.accountInfo.displayName}
+                                </Text>
+                                <Text
+                                  fontSize="12px"
+                                  fontWeight="500"
+                                  w="100%"
+                                  noOfLines={1}
+                                >
+                                  NFT: {account.numNfts}
+                                </Text>
+                              </VStack>
+                            </VStack>
+                          </Center>
+                        ))}
+                    </SimpleGrid>
+                  )}
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
         </Stack>
       </MainLayout>
       <NavBar />

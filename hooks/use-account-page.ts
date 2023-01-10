@@ -7,6 +7,7 @@ import { AccountRepo, NftRepo } from '../repos';
 import { NftApi } from '../apis';
 import { useHookstate } from '@hookstate/core';
 import { AppState } from '../store';
+import { OrderRepo } from '../repos/order.repo';
 
 export const useAccountPage = ({ accountId }: { accountId?: string }) => {
   const router = useRouter();
@@ -36,29 +37,23 @@ export const useAccountPage = ({ accountId }: { accountId?: string }) => {
   // },
   //   sort: buildSortQuery(postFilter),
   // }
-  const nftQuery = useInfiniteQuery(
+  const nftQuery = useQuery(
     [CachePrefixKeys.LIST_NFT, accountId],
-    ({ pageParam }) => {
-      const skip = pageParam?.skip || 0;
-      return NftRepo.fetchListNFTs(accountId!);
-    },
-    {
-      getNextPageParam: (lastPage, pages) => {
-        if (lastPage.length < 100) return undefined;
-        const skip = pages.length * 100;
-        return {
-          skip,
-        };
-      },
-      keepPreviousData: true,
-      enabled: !!accountId,
-    }
+    () => NftRepo.fetchListNFTs(accountId!),
+    { enabled: appState.value.ready && !!accountId }
+  );
+
+  const listOrdersQuery = useQuery(
+    [CachePrefixKeys.LIST_ORDERS, accountId],
+    () => OrderRepo.fetchListAccountOrders(accountId!),
+    { enabled: appState.value.ready && !!accountId }
   );
 
   return {
     accountPageState: {
       accountQuery,
       nftQuery,
+      listOrdersQuery,
     },
     accountPageMethods: {},
   };

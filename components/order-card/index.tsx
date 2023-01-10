@@ -3,7 +3,7 @@ import { AspectRatio, Button, HStack, VStack } from '@chakra-ui/react';
 import { Image, Stack, Heading, Text, Box } from '@chakra-ui/react';
 import { NftDto, OrderDto } from '../../dtos';
 import { Avatar } from '../avatar';
-import { useAccountPage } from '../../hooks';
+import { useAccount, useAccountPage } from '../../hooks';
 import { AuthUtils, ModalUtils } from '../../utils';
 import { NftRepo } from '../../repos';
 import { formatNearAmount } from 'near-api-js/lib/utils/format';
@@ -14,6 +14,7 @@ export const OrderCard = ({ data }: { data: OrderDto }) => {
     orderCardState: { account },
     orderCardMethods: { handleBtnBuyClick },
   } = useOrderCard(data);
+  const { accountState, accountMethods } = useAccount();
 
   return (
     <Box maxW="420px" bg="var(--bgPrimary)" borderRadius="12px" color="white">
@@ -55,9 +56,12 @@ export const OrderCard = ({ data }: { data: OrderDto }) => {
               {formatNearAmount(data.price) + ' Ⓝ'}
             </Text>
           </HStack>
-          <Button variant="primary" py="5px" onClick={handleBtnBuyClick}>
-            Buy
-          </Button>
+
+          {account?.id != accountState.profile.get()?.id && (
+            <Button variant="primary" py="5px" onClick={handleBtnBuyClick}>
+              Buy
+            </Button>
+          )}
         </HStack>
       </VStack>
     </Box>

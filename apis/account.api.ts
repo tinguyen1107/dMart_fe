@@ -13,6 +13,7 @@ enum ContractMethods {
   storage_minimum_balance = 'storage_minimum_balance',
   is_admin = 'is_admin',
   get_account = 'get_account',
+  get_accounts = 'get_accounts',
 }
 
 export const AccountApi = Object.freeze({
@@ -69,6 +70,18 @@ export const AccountApi = Object.freeze({
     }
     throw new Error(`Account does not exist ${accountId}`);
   },
+  async fetchAccounts(): Promise<AccountDto[]> {
+    let accounts: AccountDto[] =
+      await getContainer().bcConnector.callViewMethod({
+        methodName: ContractMethods.get_accounts,
+        args: {
+          from_index: 0,
+          limit: 500,
+        },
+      });
+    console.log(mapToAccounts(accounts));
+    return mapToAccounts(accounts);
+  },
   async setAccountInfo(payload: AccountInfoDto): Promise<void> {
     const args = {
       account_info: btoa(JSON.stringify(payload)),
@@ -88,9 +101,10 @@ const mapToAccounts = (raws: any[]): AccountDto[] => {
 };
 
 const mapToRawAccount = (item: any): AccountDto => {
+  console.log(item);
   const accountInfo: AccountInfoDto = item[1]?.account_info
     ? JSON.parse(atob(item[1]?.account_info))
-    : null;
+    : {};
   if (!accountInfo?.displayName)
     accountInfo.displayName = parseToUsername(item[0]);
   return {
