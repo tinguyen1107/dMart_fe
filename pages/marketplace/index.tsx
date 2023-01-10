@@ -9,91 +9,16 @@ import {
   Tab,
   TabPanel,
   Text,
-  Badge,
-  Grid,
-  GridItem,
   SimpleGrid,
   Stack,
   Center,
-  Divider,
-  HStack,
   VStack,
 } from '@chakra-ui/react';
-import {
-  NavBar,
-  NftCard,
-  HeadLine,
-  TrendingCard,
-  OrderCard,
-  Avatar,
-  AccountsList,
-} from '../../components';
+import { NavBar, HeadLine, OrderCard, Avatar } from '../../components';
 import { useAccountList, useMarketplacePage } from '../../hooks';
 import { useRouter } from 'next/router';
 
 const Marketplace = () => {
-  const nfts = [
-    {
-      id: 1,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 2,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 3,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 3',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-    {
-      id: 4,
-      imgUrl: 'https://i.ibb.co/FD1yD06/1.png',
-      title: 'distant galaxy',
-      artist: 'Moon Dancer 2',
-      price: '1,63',
-      hbid: '0.33',
-      ava: 'https://bit.ly/dan-abramov',
-    },
-  ];
-  const collections = [
-    {
-      label: '1',
-      top: 'https://i.ibb.co/3NKh8HX/top.png',
-      left: 'https://i.ibb.co/3NKh8HX/top.png',
-      mid: 'https://i.ibb.co/3NKh8HX/top.png',
-      right: 'https://i.ibb.co/3NKh8HX/top.png',
-    },
-    {
-      label: '3',
-      top: 'https://i.ibb.co/3NKh8HX/top.png',
-      left: 'https://i.ibb.co/3NKh8HX/top.pngh',
-      mid: 'https://i.ibb.co/3NKh8HX/top.png',
-      right: 'https://i.ibb.co/3NKh8HX/top.png',
-    },
-    {
-      label: '4',
-      top: 'https://i.ibb.co/3NKh8HX/top.png',
-      left: 'https://i.ibb.co/3NKh8HX/top.png',
-      mid: 'https://i.ibb.co/3NKh8HX/top.png',
-      right: 'https://i.ibb.co/3NKh8HX/top.png',
-    },
-  ];
-
   const {
     marketplacePageState: { accountQuery, listOrdersQuery },
   } = useMarketplacePage();
@@ -117,19 +42,34 @@ const Marketplace = () => {
         <Box h="100px" />
         <Stack spacing="15px" color="#fff">
           <HeadLine />
-          <Box bg="var(--bgPrimary)" borderRadius="12px">
+          <Box bg="var(--bgSecondary)" borderRadius="12px">
             <Tabs isFitted variant="unstyled">
-              <TabList color={'gray'} as="b" h="80px">
-                <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-                  <Text> NFTs </Text>
-                  <Badge mx={4}>{listOrdersQuery.data?.length ?? 0}</Badge>
+              <TabList
+                color={'gray'}
+                as="b"
+                h="60px"
+                bg="var(--bgPrimary)"
+                borderTopRadius="12px"
+              >
+                <Tab
+                  _selected={{
+                    color: '#fe8668',
+                    borderBottomWidth: '2px',
+                    borderBottomColor: '#fe8668',
+                  }}
+                >
+                  <Text>{`Bag (${listOrdersQuery.data?.length ?? 0})`}</Text>
                 </Tab>
-                <Tab _selected={{ color: 'white', borderBottomWidth: '2px' }}>
-                  <Text> Creators </Text>
-                  <Badge mx={4}>{listAccounts.length}</Badge>
+                <Tab
+                  _selected={{
+                    color: '#fe8668',
+                    borderBottomWidth: '2px',
+                    borderBottomColor: '#fe8668',
+                  }}
+                >
+                  <Text>{`Creators (${listAccounts.length})`}</Text>
                 </Tab>
               </TabList>
-              <Divider />
               <TabPanels>
                 <TabPanel>
                   {listOrdersQuery.data?.length == 0 ? (
@@ -139,7 +79,7 @@ const Marketplace = () => {
                       </Text>
                     </Center>
                   ) : (
-                    <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="60px">
+                    <SimpleGrid columns={[1, 2, 3]} gap="30px">
                       {!!listOrdersQuery.data &&
                         listOrdersQuery.data.map((order, id) => (
                           <Box key={id}>
@@ -157,7 +97,7 @@ const Marketplace = () => {
                       </Text>
                     </Center>
                   ) : (
-                    <SimpleGrid columns={[2, 4, 6]} gap="30px" mt="40px">
+                    <SimpleGrid columns={[2, 4, 6]} gap="30px">
                       {!!listAccountsQuery.data &&
                         listAccounts.map((account, id) => (
                           <Center key={id}>

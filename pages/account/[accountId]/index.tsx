@@ -156,6 +156,7 @@ const AccountPage = () => {
             <TabList
               color={'white'}
               as="b"
+              h="60px"
               bg="var(--bgPrimary)"
               borderTopRadius="12px"
             >
@@ -166,7 +167,7 @@ const AccountPage = () => {
                   borderBottomColor: '#fe8668',
                 }}
               >
-                <Text>Bag</Text>
+                <Text>{`Bag (${listNft.length})`}</Text>
               </Tab>
               <Tab
                 _selected={{
@@ -175,7 +176,8 @@ const AccountPage = () => {
                   borderBottomColor: '#fe8668',
                 }}
               >
-                <Text>Selling</Text>
+                <Text>{`Selling (${listOrdersQuery.data?.length ?? 0})`}</Text>
+                <Text></Text>
               </Tab>
             </TabList>
             <TabPanels>
@@ -187,7 +189,7 @@ const AccountPage = () => {
                     </Text>
                   </Center>
                 ) : (
-                  <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="20px">
+                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
                     {listNft.map((nft, id) => (
                       <GridItem key={id}>
                         <NftCard data={nft} />
@@ -204,7 +206,7 @@ const AccountPage = () => {
                     </Text>
                   </Center>
                 ) : (
-                  <SimpleGrid columns={[1, 2, 3]} gap="30px" mt="20px">
+                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
                     {!!listOrdersQuery.data &&
                       listOrdersQuery.data.map((order, id) => (
                         <Box key={id}>
