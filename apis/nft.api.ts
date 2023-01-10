@@ -19,6 +19,7 @@ export type MintNftInput = {
   description: string;
   media: string;
   extra: string;
+  receiverId: string;
 };
 
 export type SellNftInput = {
@@ -57,7 +58,10 @@ export const NftApi = Object.freeze({
     await getContainer().bcConnector.callChangeMethod({
       methodName: ContractMethods.mint_art_nft,
       args: {
-        receiver_id: getContainer().bcConnector.wallet.getAccountId(),
+        receiver_id:
+          payload.extra == 'Certificate'
+            ? payload.receiverId
+            : getContainer().bcConnector.wallet.getAccountId(),
         metadata: payload,
       },
       attachedDeposit: new BN(parseNearAmount('0.2') ?? 0),
