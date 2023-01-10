@@ -55,6 +55,7 @@ export const NftCard = ({ data }: { data: NftDto }) => {
         backdropFilter="blur(10px)"
         cursor="pointer"
         _hover={{ opacity: 0.8 }}
+        isDisable={isLoading}
         onClick={() => {
           if (marked) removeBookmark();
           else addBookmark();
