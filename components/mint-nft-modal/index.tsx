@@ -23,19 +23,16 @@ import {
   Image,
   Spinner,
   CloseButton,
+  FormErrorMessage,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useMediaQuery } from '@chakra-ui/react';
-// import { usePlaceChest, usePlaceChestModal } from '../../hooks';
-// import { Wrapper } from '../wrapper';
-// import { ChestDto } from '../../dtos';
 import { useHookstate } from '@hookstate/core';
-// import { ChestState } from '../../store';
 import ResizeTextarea from 'react-textarea-autosize';
 import { ModalUtils } from '../../utils';
 import { useMintNft } from '../../hooks';
 import { BiImageAdd } from 'react-icons/bi';
-//
+import { CheckBox } from '../checkbox';
 export const MintNftModal: React.FunctionComponent<{}> = () => {
   // const {
   //   blockchainMethods: { signIn },
@@ -128,6 +125,15 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
     }),
     [mintNftForm.watch('description')?.length]
   );
+
+  const [opt, setOption] = useState<number>(0);
+
+  const options = useMemo(() => ['Art', 'Certificate'], []);
+
+  useEffect(() => {
+    mintNftForm.setValue('extra', options[opt]);
+  }, [opt]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -162,7 +168,7 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
           <form onSubmit={handleMintNftFormSubmit}>
             <Stack pt="8px" direction={{ base: 'column', lg: 'row' }}>
               <ModalBody flex={1}>
-                <VStack spacing="1em" w="100%" fontSize="12px" fontWeight="800">
+                <VStack spacing="8px" w="100%" fontSize="12px" fontWeight="800">
                   <FormControl>
                     <Box w="100%">
                       <HStack justifyContent="space-between">
@@ -231,56 +237,105 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                       />
                     </Box>
                   </FormControl>
-                  <Box
-                    w="100%"
-                    bg="var(--bgSecondary)"
-                    borderRadius="10px"
-                    cursor="pointer"
-                    _hover={{ opacity: 0.75 }}
-                    onClick={openFileImport}
-                    minH="100px"
-                    pos="relative"
-                  >
-                    {!mintNftForm.watch('media') ? (
-                      uploadFileMutation.isLoading ? (
-                        <Center minH="100px" h="100%">
-                          <Spinner />
-                        </Center>
-                      ) : (
-                        <AspectRatio ratio={16 / 9}>
-                          <Center w="100%">
-                            <BiImageAdd size="100" />
+                  <VStack align="start" w="100%">
+                    <Text pl="4px">NFT type:</Text>
+                    <VStack align="start" w="100%" pl="12px">
+                      {options.map((option, index) => (
+                        <Box
+                          key={index}
+                          w="100%"
+                          fontSize="14px"
+                          fontWeight="600"
+                          color="textSecondary"
+                        >
+                          <CheckBox
+                            title={option}
+                            isChecked={opt == index}
+                            isToggle={false}
+                            onChange={() => setOption(index)}
+                          />
+                        </Box>
+                      ))}
+                    </VStack>
+                  </VStack>
+                  {mintNftForm.watch('extra') == 'Certificate' && (
+                    <FormControl
+                      isInvalid={
+                        !!mintNftForm.watch('receiverId') &&
+                        !mintNftForm.watch('receiverId')?.includes('.testnet')
+                      }
+                    >
+                      <Box w="100%">
+                        <HStack justifyContent="space-between">
+                          <Text pl="4px">Receiver Id</Text>
+                        </HStack>
+                        <Input
+                          variant="primary"
+                          py="11px"
+                          bg="var(--bgSecondary)"
+                          placeholder="Enter receiver id"
+                          h="40px"
+                          as={ResizeTextarea}
+                          resize="none"
+                          {...mintNftForm.register('receiverId')}
+                        />
+                      </Box>
+                      <FormErrorMessage>Invalid account id</FormErrorMessage>
+                    </FormControl>
+                  )}
+                  <VStack align="start" w="100%">
+                    <Text pl="4px">Media</Text>
+                    <Box
+                      w="100%"
+                      bg="var(--bgSecondary)"
+                      borderRadius="10px"
+                      cursor="pointer"
+                      _hover={{ opacity: 0.75 }}
+                      onClick={openFileImport}
+                      minH="100px"
+                      pos="relative"
+                    >
+                      {!mintNftForm.watch('media') ? (
+                        uploadFileMutation.isLoading ? (
+                          <Center minH="100px" h="100%">
+                            <Spinner />
                           </Center>
-                        </AspectRatio>
-                      )
-                    ) : (
-                      <>
-                        <CloseButton
-                          borderRadius="full"
-                          position="absolute"
-                          top="10px"
-                          right="10px"
-                          color="white"
-                          zIndex="1000"
-                          bg="blackAlpha.500"
-                          onClick={onRemove}
-                        />
-                        <Image
-                          src={mintNftForm.getValues('media')}
-                          borderRadius="10px"
-                        />
-                      </>
-                    )}
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      hidden
-                      onChange={async () => {
-                        await uploadFileMutation.mutateAsync();
-                        mintNftForm.trigger('media');
-                      }}
-                    />
-                  </Box>
+                        ) : (
+                          <AspectRatio ratio={16 / 9}>
+                            <Center w="100%">
+                              <BiImageAdd size="100" />
+                            </Center>
+                          </AspectRatio>
+                        )
+                      ) : (
+                        <>
+                          <CloseButton
+                            borderRadius="full"
+                            position="absolute"
+                            top="10px"
+                            right="10px"
+                            color="white"
+                            zIndex="1000"
+                            bg="blackAlpha.500"
+                            onClick={onRemove}
+                          />
+                          <Image
+                            src={mintNftForm.getValues('media')}
+                            borderRadius="10px"
+                          />
+                        </>
+                      )}
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        hidden
+                        onChange={async () => {
+                          await uploadFileMutation.mutateAsync();
+                          mintNftForm.trigger('media');
+                        }}
+                      />
+                    </Box>
+                  </VStack>
                 </VStack>
               </ModalBody>
             </Stack>
@@ -292,8 +347,12 @@ export const MintNftModal: React.FunctionComponent<{}> = () => {
                 isLoading={mintNftPublishing}
                 type="submit"
                 isDisabled={
-                  // indicatorMessageCharacters.remain < 0 ||
-                  indicatorNameCharacters.remain < 0
+                  indicatorDescriptionCharacters.remain < 0 ||
+                  indicatorNameCharacters.remain < 0 ||
+                  mintNftForm.getValues('title') == '' ||
+                  mintNftForm.getValues('description') == '' ||
+                  mintNftForm.getValues('media') == '' ||
+                  mintNftForm.getValues('extra') == ''
                 }
               >
                 Mint

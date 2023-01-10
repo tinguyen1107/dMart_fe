@@ -3,6 +3,7 @@ export * from './footer';
 export * from './navbar';
 export * from './banner';
 export * from './headline';
+export * from './checkbox';
 export * from './trending-card';
 export * from './nft-card';
 export * from './order-card';
