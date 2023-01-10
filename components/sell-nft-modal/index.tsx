@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  FormControl,
-  Stack,
   Input,
   Modal,
   ModalBody,
@@ -13,30 +11,11 @@ import {
   Text,
   VStack,
   ModalHeader,
-  Textarea,
-  HStack,
-  useDisclosure,
-  LinkBox,
-  ControlBox,
-  Center,
-  AspectRatio,
-  Image,
-  Spinner,
-  CloseButton,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from '@chakra-ui/react';
-// import { usePlaceChest, usePlaceChestModal } from '../../hooks';
-// import { Wrapper } from '../wrapper';
-// import { ChestDto } from '../../dtos';
-import { useHookstate } from '@hookstate/core';
-// import { ChestState } from '../../store';
-import ResizeTextarea from 'react-textarea-autosize';
-import { ModalUtils } from '../../utils';
-import { useMintNft, useSellNftModal } from '../../hooks';
-import { BiImageAdd } from 'react-icons/bi';
+import React from 'react';
+import { useSellNftModal } from '../../hooks';
 import { NftCard } from '../nft-card';
-//
+
 export const SellNftModal: React.FunctionComponent<{}> = () => {
   // const {
   //   blockchainMethods: { signIn },
@@ -134,7 +113,13 @@ export const SellNftModal: React.FunctionComponent<{}> = () => {
           <ModalBody flex={1}>
             <VStack spacing="1em" w="100%" fontSize="12px" fontWeight="800">
               {!!selectedNft && (
-                <Box bg="#fff1" p="20px" borderRadius="12px">
+                <Box
+                  bg="#fff1"
+                  p="20px"
+                  borderRadius="12px"
+                  maxW="390px"
+                  w="100%"
+                >
                   <NftCard data={selectedNft} />
                 </Box>
               )}

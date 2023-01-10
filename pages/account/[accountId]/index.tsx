@@ -51,7 +51,12 @@ const AccountPage = () => {
 
   const accountId = router.query?.accountId as Optional<string>;
   const {
-    accountPageState: { accountQuery, listOrdersQuery, nftQuery },
+    accountPageState: {
+      accountQuery,
+      listFavouriteQuery,
+      listOrdersQuery,
+      nftQuery,
+    },
   } = useAccountPage({ accountId });
 
   const { data: account } = accountQuery;
@@ -94,24 +99,15 @@ const AccountPage = () => {
               mt="-64px"
             />
           </Box>
-          <Box p="20px 30px 30px">
+          <Box p="20px 30px 30px" color="var(--textPrimary)">
             <VStack spacing="24px" align="left">
-              <HStack pr="20px" justifyContent="space-between">
+              <HStack pr="20px" justifyContent="start">
                 <Box>
-                  <Heading size={'2xl'}>
+                  <Heading color="var(--textHeader)" size={'2xl'}>
                     {account?.accountInfo.displayName}
                   </Heading>
                   <Text mt="5px">@{account?.id}</Text>
                 </Box>
-                <Button
-                  borderRadius={'2xl'}
-                  variant="outline"
-                  size={{ md: 'md', lg: 'lg' }}
-                  colorScheme="purple"
-                  leftIcon={<FaPlus />}
-                >
-                  Follow
-                </Button>
               </HStack>
               <HStack spacing={'50px'}>
                 <VStack alignItems={'left'}>
@@ -133,6 +129,18 @@ const AccountPage = () => {
                   <Text fontSize="lg">Followers</Text>
                 </VStack>
               </HStack>
+            </VStack>
+          </Box>
+        </Box>
+
+        <Box
+          bg="var(--bgPrimary)"
+          color="var(--textPrimary)"
+          mt="20px"
+          borderRadius="12px"
+        >
+          <Box p="20px 30px 30px">
+            <VStack spacing="24px" align="left">
               <Text textColor={'gray'} fontWeight="bold" fontSize="xl">
                 Bio
               </Text>
@@ -151,8 +159,8 @@ const AccountPage = () => {
           </Box>
         </Box>
 
-        <Box bg="var(--bgSecondary)" borderRadius="12px">
-          <Tabs isFitted variant="unstyled" mt="20px" minH="600px">
+        <Box bg="var(--bgSecondary)" mt="20px" borderRadius="12px">
+          <Tabs isFitted variant="unstyled" minH="600px">
             <TabList
               color={'white'}
               as="b"
@@ -160,6 +168,17 @@ const AccountPage = () => {
               bg="var(--bgPrimary)"
               borderTopRadius="12px"
             >
+              <Tab
+                _selected={{
+                  color: '#fe8668',
+                  borderBottomWidth: '2px',
+                  borderBottomColor: '#fe8668',
+                }}
+              >
+                <Text>{`Favourites (${
+                  listFavouriteQuery.data?.length ?? 0
+                })`}</Text>
+              </Tab>
               <Tab
                 _selected={{
                   color: '#fe8668',
@@ -182,6 +201,26 @@ const AccountPage = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
+                {/* Favourite */}
+                {listFavouriteQuery.data?.length == 0 ? (
+                  <Center h="240px">
+                    <Text fontSize="xl" fontWeight="600" color="#fff5">
+                      Empty
+                    </Text>
+                  </Center>
+                ) : (
+                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
+                    {!!listFavouriteQuery.data &&
+                      listFavouriteQuery.data?.map((nft, id) => (
+                        <GridItem key={id}>
+                          <NftCard data={nft} />
+                        </GridItem>
+                      ))}
+                  </SimpleGrid>
+                )}
+              </TabPanel>
+              <TabPanel>
+                {/* Bag */}
                 {listNft.length == 0 ? (
                   <Center h="240px">
                     <Text fontSize="xl" fontWeight="600" color="#fff5">
@@ -199,6 +238,7 @@ const AccountPage = () => {
                 )}
               </TabPanel>
               <TabPanel>
+                {/* Selling */}
                 {listOrdersQuery.data?.length == 0 ? (
                   <Center h="240px">
                     <Text fontSize="xl" fontWeight="600" color="#fff5">

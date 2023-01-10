@@ -1,10 +1,18 @@
 import React from 'react';
-import { AspectRatio, Button, HStack, VStack } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Button,
+  Center,
+  HStack,
+  Spinner,
+  VStack,
+} from '@chakra-ui/react';
 import { Image, Stack, Heading, Text, Box } from '@chakra-ui/react';
 import { NftDto } from '../../dtos';
 import { Avatar } from '../avatar';
-import { useAccount, useAccountPage } from '../../hooks';
+import { useAccount, useAccountPage, useBookmark } from '../../hooks';
 import { AuthUtils, ModalUtils } from '../../utils';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 export const NftCard = ({ data }: { data: NftDto }) => {
   const {
@@ -13,14 +21,19 @@ export const NftCard = ({ data }: { data: NftDto }) => {
   const { accountState, accountMethods } = useAccount();
 
   const { data: account } = accountQuery;
+  const {
+    bookmarkState: { marked, accountBookmarksQuery, isLoading },
+    bookmarkMethods: { addBookmark, removeBookmark },
+  } = useBookmark(data.tokenId);
 
   return (
     <VStack
-      maxW="420px"
+      maxW="350px"
       bg="var(--bgPrimary)"
-      h="350px"
+      h="380px"
       borderRadius="12px"
       color="white"
+      pos="relative"
     >
       <Box w="100%">
         <AspectRatio ratio={16 / 9}>
@@ -31,6 +44,31 @@ export const NftCard = ({ data }: { data: NftDto }) => {
             objectFit="cover"
           />
         </AspectRatio>
+      </Box>
+      <Box
+        pos="absolute"
+        top="5px"
+        right="5px"
+        borderRadius="full"
+        p="3px"
+        bg="#3333"
+        backdropFilter="blur(10px)"
+        cursor="pointer"
+        _hover={{ opacity: 0.8 }}
+        onClick={() => {
+          if (marked) removeBookmark();
+          else addBookmark();
+        }}
+      >
+        {isLoading ? (
+          <Center w="24px" h="24px">
+            <Spinner size="sm" />
+          </Center>
+        ) : marked ? (
+          <MdFavorite color="#f55" size="24px" />
+        ) : (
+          <MdFavoriteBorder size="24px" />
+        )}
       </Box>
       <VStack
         w="100%"

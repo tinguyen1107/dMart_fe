@@ -17,22 +17,12 @@ export const HeadLine = () => {
       mt="auto"
       borderRadius="12px"
     >
-      <Box>
-        <Text fontSize="4xl" as="b">
-          Marketplace
-        </Text>
-        <Text mt={2}>
-          Browse through more than 50k NFTs on the NFT Marketplace.
-        </Text>
-        <Box z-index="1">
-          <InputGroup mt={4} borderColor="gray" background-attachment="fixed">
-            <Input placeholder="Search your favorite NFTs" size="md" />
-            <InputRightElement>
-              <FaSearch />
-            </InputRightElement>
-          </InputGroup>
-        </Box>
-      </Box>
+      <Text fontSize="4xl" as="b">
+        Marketplace
+      </Text>
+      <Text mt={2}>
+        Browse through more than 50k NFTs on the NFT Marketplace.
+      </Text>
     </Box>
   );
 };

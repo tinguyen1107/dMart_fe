@@ -1,5 +1,5 @@
 import { AccountApi } from '../apis';
-import { AccountDto } from '../dtos';
+import { AccountDto, NftDto } from '../dtos';
 
 export class AccountRepo {
   static async storageDeposit(): Promise<void> {
@@ -25,5 +25,14 @@ export class AccountRepo {
   }
   static async fetchAccounts(): Promise<AccountDto[]> {
     return AccountApi.fetchAccounts();
+  }
+  static async getBookmarks(): Promise<NftDto[]> {
+    return AccountApi.getBookmarks();
+  }
+  static async addBookmark(nftId: string): Promise<void> {
+    return AccountApi.addBookmark(nftId);
+  }
+  static async removeBookmark(nftId: string): Promise<void> {
+    return AccountApi.removeBookmark(nftId);
   }
 }
