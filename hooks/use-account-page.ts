@@ -1,17 +1,18 @@
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { CachePrefixKeys } from '../constants';
 import { useBlockchain, useWalletAccountId } from '../core/hooks';
 import { AccountRepo, NftRepo } from '../repos';
 import { AccountApi, NftApi } from '../apis';
 import { useHookstate } from '@hookstate/core';
-import { AppState } from '../store';
+import { AccountState, AppState } from '../store';
 import { OrderRepo } from '../repos/order.repo';
 
 export const useAccountPage = ({ accountId }: { accountId?: string }) => {
   const router = useRouter();
   const appState = useHookstate(AppState);
+  const accountState = useHookstate(AccountState);
   const { blockchainState, blockchainMethods } = useBlockchain();
 
   const accountQuery = useQuery(
@@ -55,8 +56,13 @@ export const useAccountPage = ({ accountId }: { accountId?: string }) => {
     { enabled: appState.value.ready && !!accountId }
   );
 
+  const isOwner = useMemo(() => {
+    return accountId === accountState.value.profile?.id;
+  }, [accountState.value.profile?.id, accountId]);
+
   return {
     accountPageState: {
+      isOwner,
       accountQuery,
       listFavouriteQuery,
       nftQuery,

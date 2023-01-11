@@ -58,7 +58,7 @@ const Marketplace = () => {
                     borderBottomColor: '#fe8668',
                   }}
                 >
-                  <Text>{`Bag (${listOrdersQuery.data?.length ?? 0})`}</Text>
+                  <Text>{`NFTs (${listOrdersQuery.data?.length ?? 0})`}</Text>
                 </Tab>
                 <Tab
                   _selected={{

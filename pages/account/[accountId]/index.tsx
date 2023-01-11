@@ -52,6 +52,7 @@ const AccountPage = () => {
   const accountId = router.query?.accountId as Optional<string>;
   const {
     accountPageState: {
+      isOwner,
       accountQuery,
       listFavouriteQuery,
       listOrdersQuery,
@@ -168,17 +169,19 @@ const AccountPage = () => {
               bg="var(--bgPrimary)"
               borderTopRadius="12px"
             >
-              <Tab
-                _selected={{
-                  color: '#fe8668',
-                  borderBottomWidth: '2px',
-                  borderBottomColor: '#fe8668',
-                }}
-              >
-                <Text>{`Favourites (${
-                  listFavouriteQuery.data?.length ?? 0
-                })`}</Text>
-              </Tab>
+              {isOwner && (
+                <Tab
+                  _selected={{
+                    color: '#fe8668',
+                    borderBottomWidth: '2px',
+                    borderBottomColor: '#fe8668',
+                  }}
+                >
+                  <Text>{`Favourites (${
+                    listFavouriteQuery.data?.length ?? 0
+                  })`}</Text>
+                </Tab>
+              )}
               <Tab
                 _selected={{
                   color: '#fe8668',
@@ -200,25 +203,27 @@ const AccountPage = () => {
               </Tab>
             </TabList>
             <TabPanels>
-              <TabPanel>
-                {/* Favourite */}
-                {listFavouriteQuery.data?.length == 0 ? (
-                  <Center h="240px">
-                    <Text fontSize="xl" fontWeight="600" color="#fff5">
-                      Empty
-                    </Text>
-                  </Center>
-                ) : (
-                  <SimpleGrid columns={[1, 2, 3]} gap="30px">
-                    {!!listFavouriteQuery.data &&
-                      listFavouriteQuery.data?.map((nft, id) => (
-                        <GridItem key={id}>
-                          <NftCard data={nft} />
-                        </GridItem>
-                      ))}
-                  </SimpleGrid>
-                )}
-              </TabPanel>
+              {isOwner && (
+                <TabPanel>
+                  {/* Favourite */}
+                  {listFavouriteQuery.data?.length == 0 ? (
+                    <Center h="240px">
+                      <Text fontSize="xl" fontWeight="600" color="#fff5">
+                        Empty
+                      </Text>
+                    </Center>
+                  ) : (
+                    <SimpleGrid columns={[1, 2, 3]} gap="30px">
+                      {!!listFavouriteQuery.data &&
+                        listFavouriteQuery.data?.map((nft, id) => (
+                          <GridItem key={id}>
+                            <NftCard data={nft} />
+                          </GridItem>
+                        ))}
+                    </SimpleGrid>
+                  )}
+                </TabPanel>
+              )}
               <TabPanel>
                 {/* Bag */}
                 {listNft.length == 0 ? (
